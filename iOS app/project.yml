@@ -116,3 +116,36 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.receiptfolder.app.uitests
         GENERATE_INFOPLIST_FILE: true
         TEST_TARGET_NAME: ReceiptFolder
+
+  # Native macOS companion — SwiftUI, NOT Mac Catalyst. Shares data with the
+  # iOS app via the same CloudKit private container. v1 scope: view, add,
+  # edit, archive, delete, export. Camera / Live Activities / widgets / Siri
+  # remain iOS-only (they don't translate cleanly to macOS conventions).
+  ReceiptFolderMac:
+    type: application
+    platform: macOS
+    deploymentTarget:
+      macOS: "14.0"
+    scheme: {}
+    sources:
+      - path: ReceiptFolderMac
+      - path: Shared
+    settings:
+      base:
+        INFOPLIST_FILE: ReceiptFolderMac/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.receiptfolder.mac
+        CODE_SIGN_ENTITLEMENTS: ReceiptFolderMac/ReceiptFolderMac.entitlements
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
+    entitlements:
+      path: ReceiptFolderMac/ReceiptFolderMac.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.client: true
+        com.apple.security.files.user-selected.read-write: true
+        com.apple.developer.icloud-services:
+          - CloudKit
+        com.apple.developer.ubiquity-kvstore-identifier: "$(TeamIdentifierPrefix)$(CFBundleIdentifier)"
+        com.apple.developer.icloud-container-identifiers:
+          - iCloud.com.receiptfolder.app
+        com.apple.security.application-groups:
+          - group.com.receiptfolder.app

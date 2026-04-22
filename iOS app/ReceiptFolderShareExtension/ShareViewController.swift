@@ -22,7 +22,11 @@ final class ShareViewController: UIViewController {
     @MainActor
     private func loadAndPresent() async {
         let (subject, body) = await extractSubjectAndBody()
-        let parsed = EmailReceiptParser.parse(subject: subject, body: body)
+        // Async variant first-tries templated retailer parsers, then falls
+        // back to the Foundation Models on-device LLM for unrecognised
+        // senders on iOS 26+. If both fail the ReviewView handles the
+        // blank-draft case by letting the user fill the fields by hand.
+        let parsed = await EmailReceiptParser.parseWithAIFallback(subject: subject, body: body)
 
         let host = UIHostingController(rootView: ShareReviewView(
             subject: subject,

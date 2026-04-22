@@ -40,7 +40,8 @@ enum EmailReceiptParser {
     }
 
     /// Tries each registered retailer parser against the email content.
-    /// Returns `nil` if no parser recognises the email.
+    /// Returns `nil` if no parser recognises the email. Synchronous,
+    /// template-only — used in tests and fast paths.
     static func parse(subject: String, body: String) -> ParsedReceipt? {
         let context = EmailContext(subject: subject, body: body)
         for parser in parsers {
@@ -48,6 +49,24 @@ enum EmailReceiptParser {
                 return parser.extract(context)
             }
         }
+        return nil
+    }
+
+    /// Async entry point used by the Share Extension. First tries the
+    /// templated retailer parsers (fast, deterministic). If no template
+    /// matches and the device supports Apple Intelligence (iOS 26+), falls
+    /// through to `FoundationModelsReceiptParser` for an on-device LLM
+    /// extraction. Returns `nil` only when both paths fail — in which case
+    /// the UI should prompt the user to enter fields by hand.
+    static func parseWithAIFallback(subject: String, body: String) async -> ParsedReceipt? {
+        if let templated = parse(subject: subject, body: body) {
+            return templated
+        }
+        #if canImport(FoundationModels)
+        if #available(iOS 26.0, macOS 26.0, *) {
+            return await FoundationModelsReceiptParser.tryParse(subject: subject, body: body)
+        }
+        #endif
         return nil
     }
 

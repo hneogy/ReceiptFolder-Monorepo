@@ -24,6 +24,7 @@
 		27D252E82644B98D9E032486 /* HouseholdConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB92ADD1769A76B74E4D68C /* HouseholdConstants.swift */; };
 		295D0ACD3D02E80A1737A206 /* WidgetColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45421DF9C747791B3E5185CF /* WidgetColors.swift */; };
 		29B1236FDC41A7CCD502D84F /* HouseholdConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB92ADD1769A76B74E4D68C /* HouseholdConstants.swift */; };
+		2D91BB0714406190A46D98B9 /* FoundationModelsReceiptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FE19775D9F28466529A118 /* FoundationModelsReceiptParser.swift */; };
 		2EA1E1A11415E28B6522C7B4 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C6AD1282689DA81557765 /* WidgetDataProvider.swift */; };
 		2EDAA294891AA91B064A8B40 /* HouseholdStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB77DF70474129BFE65F45D /* HouseholdStore.swift */; };
 		2F60685C7B775E71DFBDE1DA /* UrgencyLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997A13FA9BF1E1E23A155052 /* UrgencyLevel.swift */; };
@@ -49,6 +50,7 @@
 		53078DDCCF27D40AF641572E /* ReceiptCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24960F50AB6226A2DA7C70F /* ReceiptCameraView.swift */; };
 		57EFEA6084F4D57768AEFE40 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8922154D6E10249836975BF /* LiveActivityManager.swift */; };
 		5FDA07DF081C3EF5DE180008 /* HouseholdConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB92ADD1769A76B74E4D68C /* HouseholdConstants.swift */; };
+		5FF9D914909B71CE9CAF3E27 /* FoundationModelsReceiptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FE19775D9F28466529A118 /* FoundationModelsReceiptParser.swift */; };
 		68B7F04E84B8873148E93DE5 /* ReturnDecisionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A38C78944CC1F2084FDD97 /* ReturnDecisionEngine.swift */; };
 		6A0F8834B44CB37C834495BF /* MarkReturnedIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8E9163240153C9A0EEB889 /* MarkReturnedIntent.swift */; };
 		6B543BF71F6FABC8C8C547AD /* ReturnConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69AAB316B7C6179189C66EA /* ReturnConfirmationView.swift */; };
@@ -57,6 +59,7 @@
 		762E3C827B054FEE23050245 /* OCRResultReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2A7EBDC25A89507DB62A1E /* OCRResultReviewView.swift */; };
 		7B22F84D88F86D66B26B91E4 /* ModelVersioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FECC95679291F6512CBBAFD /* ModelVersioning.swift */; };
 		7D00F9825912BB656195B273 /* ReviewPromptService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B80E984BD46739EF72A111 /* ReviewPromptService.swift */; };
+		83F54672896056D20B8D72B4 /* FoundationModelsReceiptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FE19775D9F28466529A118 /* FoundationModelsReceiptParser.swift */; };
 		84A7554E3DD63DF4D3609A4B /* HouseholdReceiptDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767DDB5DAAFCBAAB67F51894 /* HouseholdReceiptDetailView.swift */; };
 		854A5E7FF149D7C6F1C7D606 /* WidgetColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45421DF9C747791B3E5185CF /* WidgetColors.swift */; };
 		855A63F1412E37A87397C93C /* StorePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6582F6C352AA3FBDBF0660C /* StorePolicy.swift */; };
@@ -70,6 +73,7 @@
 		9A59FE8352D36ACB81BF9A6A /* ReturnWindowCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB79887A912BFC73648793D /* ReturnWindowCalculator.swift */; };
 		9C5BDC1CD933055F4C6ABA7B /* CloudSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E8665811506D490BF6B6FF /* CloudSyncService.swift */; };
 		9D1EB5D1D233FA46FD239582 /* WidgetSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9EE25239C05893E1824F35 /* WidgetSyncService.swift */; };
+		9FC4351E97ECE30E43C1937D /* FoundationModelsReceiptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FE19775D9F28466529A118 /* FoundationModelsReceiptParser.swift */; };
 		A3B7553C59BD1D0CCE4DDD67 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74083F127F7AD38B64EBE808 /* MainTabView.swift */; };
 		A3EBD4167EDF154C28FD105B /* BiometricAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADE1E27F337895767A12708 /* BiometricAuthService.swift */; };
 		A5C4F2A1CB2CAF9B04A6C7E2 /* OCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10B57D1DBDC3A45719F0E3F /* OCRService.swift */; };
@@ -235,6 +239,7 @@
 		C32B068C3800E3B68F27758D /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		C6582F6C352AA3FBDBF0660C /* StorePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorePolicy.swift; sourceTree = "<group>"; };
 		C6E8665811506D490BF6B6FF /* CloudSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncService.swift; sourceTree = "<group>"; };
+		C6FE19775D9F28466529A118 /* FoundationModelsReceiptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationModelsReceiptParser.swift; sourceTree = "<group>"; };
 		C76EBC6986D7B96843B90310 /* HouseholdRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdRowView.swift; sourceTree = "<group>"; };
 		C90070B3645218C75DBFE3F2 /* MacReceiptFolderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacReceiptFolderApp.swift; sourceTree = "<group>"; };
 		CBD9D25F339A5140977625D5 /* StorePolicies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = StorePolicies.json; sourceTree = "<group>"; };
@@ -420,6 +425,7 @@
 			children = (
 				41082A2C56E6269AF5787568 /* AppGroupConstants.swift */,
 				14B36E064B1E76C5BB091A0A /* EmailReceiptParser.swift */,
+				C6FE19775D9F28466529A118 /* FoundationModelsReceiptParser.swift */,
 				2FB92ADD1769A76B74E4D68C /* HouseholdConstants.swift */,
 				ECB77DF70474129BFE65F45D /* HouseholdStore.swift */,
 				4F8E9163240153C9A0EEB889 /* MarkReturnedIntent.swift */,
@@ -729,6 +735,7 @@
 				EECE94444C0544B4DA5C8E4A /* ExportService.swift in Sources */,
 				1F5CE0A8A9162989C9F6F622 /* FamilySharingService.swift in Sources */,
 				CC9B3F5DDFD557859F004670 /* FamilySharingView.swift in Sources */,
+				83F54672896056D20B8D72B4 /* FoundationModelsReceiptParser.swift in Sources */,
 				4006F4C875DF7CD79463D1EE /* HapticsService.swift in Sources */,
 				FEA24D1AB0CBD399399FA2B8 /* HouseholdConstants.swift in Sources */,
 				84A7554E3DD63DF4D3609A4B /* HouseholdReceiptDetailView.swift in Sources */,
@@ -792,6 +799,7 @@
 			files = (
 				EA8495D3851FE48FE9590CBD /* AppGroupConstants.swift in Sources */,
 				493D98C0CCE705822AFE2208 /* EmailReceiptParser.swift in Sources */,
+				9FC4351E97ECE30E43C1937D /* FoundationModelsReceiptParser.swift in Sources */,
 				27D252E82644B98D9E032486 /* HouseholdConstants.swift in Sources */,
 				4D1181D67B65F4C9E44EEB22 /* HouseholdStore.swift in Sources */,
 				3B884696428EA099FF0DD8BD /* MacDesignSystem.swift in Sources */,
@@ -825,6 +833,7 @@
 			files = (
 				04C05C3A1AD305927BDE71BD /* AppGroupConstants.swift in Sources */,
 				9906176D687191E59CF7FB7A /* EmailReceiptParser.swift in Sources */,
+				2D91BB0714406190A46D98B9 /* FoundationModelsReceiptParser.swift in Sources */,
 				5FDA07DF081C3EF5DE180008 /* HouseholdConstants.swift in Sources */,
 				DE8BA5A425A83490AB55E70E /* HouseholdStore.swift in Sources */,
 				B033EB4527024A7DFD6D939D /* MarkReturnedIntent.swift in Sources */,
@@ -842,6 +851,7 @@
 			files = (
 				8D50655E795CCFBA9CFE7E66 /* AppGroupConstants.swift in Sources */,
 				D20F3486FD98820C046BC66D /* EmailReceiptParser.swift in Sources */,
+				5FF9D914909B71CE9CAF3E27 /* FoundationModelsReceiptParser.swift in Sources */,
 				29B1236FDC41A7CCD502D84F /* HouseholdConstants.swift in Sources */,
 				2EDAA294891AA91B064A8B40 /* HouseholdStore.swift in Sources */,
 				6A0F8834B44CB37C834495BF /* MarkReturnedIntent.swift in Sources */,

@@ -204,6 +204,20 @@ private struct ReleaseItem: Identifiable {
 private extension ChangelogView {
     static let releases: [Release] = [
         Release(
+            id: "1.4.1",
+            version: "1.4.1",
+            codename: "Smarter inbox, leaner sync.",
+            volume: "I, No. 7",
+            dateline: "May 2026",
+            lede: "Two quality passes behind the scenes. Email import now works for every retailer, not just the three we templated — thanks to Apple Intelligence. Household sync drops to deltas so even a thousand-receipt household is cheap to refresh.",
+            items: [
+                ReleaseItem(tag: .new, title: "Apple Intelligence email fallback", detail: "Any retailer we don't yet template goes through Apple's on-device language model. Store, product, date, price — extracted directly from the email. iOS 26+."),
+                ReleaseItem(tag: .improved, title: "Change-token delta sync for households", detail: "A silent push used to trigger a full re-download of every shared receipt; now we only pull what actually changed. Huge bandwidth win for large households."),
+                ReleaseItem(tag: .improved, title: "Per-zone token persistence", detail: "Cold launches no longer re-download the world — CloudKit tokens persist across app restarts."),
+                ReleaseItem(tag: .polish, title: "16 new unit tests + 2-account TestFlight plan", detail: "Regression coverage for the household + email-import code paths, plus a documented manual test plan for release candidates."),
+            ]
+        ),
+        Release(
             id: "1.4.0",
             version: "1.4.0",
             codename: "Household, out of beta.",

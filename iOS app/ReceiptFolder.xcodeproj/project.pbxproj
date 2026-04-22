@@ -37,6 +37,7 @@
 		712242CCB5DBC0232D67C426 /* UrgencyLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D803203D48CAE92E0C28CBA1 /* UrgencyLevelTests.swift */; };
 		762E3C827B054FEE23050245 /* OCRResultReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2A7EBDC25A89507DB62A1E /* OCRResultReviewView.swift */; };
 		7B22F84D88F86D66B26B91E4 /* ModelVersioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FECC95679291F6512CBBAFD /* ModelVersioning.swift */; };
+		7D00F9825912BB656195B273 /* ReviewPromptService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B80E984BD46739EF72A111 /* ReviewPromptService.swift */; };
 		854A5E7FF149D7C6F1C7D606 /* WidgetColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45421DF9C747791B3E5185CF /* WidgetColors.swift */; };
 		855A63F1412E37A87397C93C /* StorePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6582F6C352AA3FBDBF0660C /* StorePolicy.swift */; };
 		8880521E79527A537EEF6F32 /* VaultRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930972ECE2448E45958C801 /* VaultRowView.swift */; };
@@ -128,6 +129,7 @@
 		119BD2B68937FE2EEB34EE0C /* ReceiptFolderUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ReceiptFolderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		120FFC71B72D707B4E231B17 /* ReturnDecisionEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnDecisionEngineTests.swift; sourceTree = "<group>"; };
 		165D8B2ADF8856BD6B45B906 /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
+		18B80E984BD46739EF72A111 /* ReviewPromptService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPromptService.swift; sourceTree = "<group>"; };
 		25624647B113CD35FEA5008F /* BackgroundTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskManager.swift; sourceTree = "<group>"; };
 		289FB463F7FC0FC1A79A4296 /* TranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationService.swift; sourceTree = "<group>"; };
 		2CE4A60EE83521F583570FCE /* ReturnModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnModeView.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 				08CFCDB3B691ECF2403E4A64 /* ReceiptTips.swift */,
 				70A38C78944CC1F2084FDD97 /* ReturnDecisionEngine.swift */,
 				4DB79887A912BFC73648793D /* ReturnWindowCalculator.swift */,
+				18B80E984BD46739EF72A111 /* ReviewPromptService.swift */,
 				CEE999B847A0CC590C67F1FB /* SmartReceiptParser.swift */,
 				832697221112E4FF66B2D122 /* SpotlightIndexer.swift */,
 				3D9AB8DC4B643F1DB8594951 /* StorePolicyService.swift */,
@@ -598,6 +601,7 @@
 				68B7F04E84B8873148E93DE5 /* ReturnDecisionEngine.swift in Sources */,
 				D743C08000687938A390FB53 /* ReturnModeView.swift in Sources */,
 				9A59FE8352D36ACB81BF9A6A /* ReturnWindowCalculator.swift in Sources */,
+				7D00F9825912BB656195B273 /* ReviewPromptService.swift in Sources */,
 				0AA813A7264FB5CF14EB2BC3 /* SettingsView.swift in Sources */,
 				3720E09FE76880372B85183F /* SmartReceiptParser.swift in Sources */,
 				C3BF4C7A33700EDCB0BE66BF /* SpotlightIndexer.swift in Sources */,

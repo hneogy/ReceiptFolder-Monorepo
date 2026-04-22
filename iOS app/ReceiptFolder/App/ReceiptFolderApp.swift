@@ -108,6 +108,7 @@ struct ReceiptFolderApp: App {
                 // Skip iCloud checks and image migration during UI tests so
                 // tests start instantly and behave deterministically.
                 guard !Self.isUITesting else { return }
+                ReviewPromptService.recordFirstLaunchIfNeeded()
                 await CloudSyncService.shared.checkAccountStatus()
                 await migrateImagesToModelData()
             }

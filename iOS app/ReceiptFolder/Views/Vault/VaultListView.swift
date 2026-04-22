@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import StoreKit
 
 enum VaultSortOption: String, CaseIterable {
     case newest = "Newest First"
@@ -26,6 +27,7 @@ struct VaultListView: View {
     private var items: [ReceiptItem]
 
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.requestReview) private var requestReview
     @Binding var showingAddItem: Bool
     @State private var searchText = ""
     @State private var sortOption: VaultSortOption = .newest
@@ -499,15 +501,23 @@ struct VaultListView: View {
     // MARK: - Batch Actions
 
     private func batchMarkReturned() {
+        var markedCount = 0
         for item in items where selectedItems.contains(item.id) {
             item.isReturned = true
             NotificationScheduler.shared.cancelNotifications(for: item.id)
             LiveActivityManager.shared.endLiveActivity(for: item.id)
+            markedCount += 1
         }
         WidgetSyncService.sync(modelContext: modelContext)
         selectedItems.removeAll()
         isEditing = false
         HapticsService.shared.playSuccess()
+        // Each returned item is an earned-value signal.
+        for _ in 0..<markedCount { ReviewPromptService.recordMarkReturned() }
+        if markedCount > 0, ReviewPromptService.shouldAsk() {
+            requestReview()
+            ReviewPromptService.markPromptShown()
+        }
     }
 
     private func batchArchive() {

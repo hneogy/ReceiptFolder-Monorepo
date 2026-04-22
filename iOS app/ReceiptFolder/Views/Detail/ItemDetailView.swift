@@ -3,6 +3,7 @@ import SwiftData
 import MessageUI
 import TipKit
 import Accessibility
+import StoreKit
 
 /// The item detail view, rendered as a printed receipt document:
 ///   — Masthead with issue/receipt number
@@ -16,6 +17,7 @@ struct ItemDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.legibilityWeight) private var legibilityWeight
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.requestReview) private var requestReview
 
     @Bindable var item: ReceiptItem
     @State private var itemPhoto: UIImage?
@@ -132,6 +134,13 @@ struct ItemDetailView: View {
                             LiveActivityManager.shared.endLiveActivity(for: item.id)
                             WidgetSyncService.sync(modelContext: modelContext)
                             HapticsService.shared.playSuccess()
+                            ReviewPromptService.recordMarkReturned()
+                            // Ask for a review at this natural pause — the user
+                            // just completed the full add → track → return loop.
+                            if ReviewPromptService.shouldAsk() {
+                                requestReview()
+                                ReviewPromptService.markPromptShown()
+                            }
                         }
                     }
                     if item.isWarrantyActive {

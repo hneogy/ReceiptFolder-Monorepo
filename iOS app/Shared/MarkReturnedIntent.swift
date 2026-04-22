@@ -54,6 +54,11 @@ struct MarkReturnedIntent: AppIntent {
         if !item.isReturned {
             item.isReturned = true
             try? context.save()
+            // Increment the app-group review-prompt counter from the widget
+            // process — UserDefaults for the suite is shared, so the main
+            // app will see the bump next time it foregrounds and can ask
+            // for a review at its natural pause point.
+            bumpReviewCounter()
         }
 
         // Rebuild the widget snapshot so the just-returned item disappears
@@ -87,6 +92,18 @@ struct MarkReturnedIntent: AppIntent {
 
         WidgetCenter.shared.reloadAllTimelines()
         return .result()
+    }
+
+    // MARK: - Review-prompt counter (shared with the app)
+
+    /// Increment the review-prompt mark-returned counter in the shared
+    /// App Group UserDefaults. Mirrors `ReviewPromptService.recordMarkReturned`
+    /// but duplicated here because the widget target can't link against the
+    /// full app-side service.
+    private func bumpReviewCounter() {
+        guard let defaults = AppGroupConstants.sharedDefaults else { return }
+        let current = defaults.integer(forKey: "reviewPrompt.markReturnedCount")
+        defaults.set(current + 1, forKey: "reviewPrompt.markReturnedCount")
     }
 
     // MARK: - Container access

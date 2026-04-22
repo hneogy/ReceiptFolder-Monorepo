@@ -53,7 +53,7 @@
             <span class="faq__indicator">+</span>
           </summary>
           <div class="faq__answer">
-            <p>No. There's no sign-up, no email, no password. Open the app and start using it. If you want your receipts to sync between your iPhone and iPad, the app uses your existing iCloud account — the same one your phone is already signed into — with no extra registration.</p>
+            <p>No. There's no sign-up, no email, no password. Open the app and start using it. If you want your receipts to sync between your iPhone, iPad, and Mac, the app uses your existing iCloud account — the same one your devices are already signed into — with no extra registration.</p>
           </div>
         </details>
 
@@ -73,7 +73,7 @@
             <span class="faq__indicator">+</span>
           </summary>
           <div class="faq__answer">
-            <p>Apple's Vision framework runs on-device text recognition on the receipt photo. The app looks for a store name, a date, and a total, then matches the store against a bundled database of 100+ return policies. The photo and its extracted text never leave your phone.</p>
+            <p>Apple's Vision framework runs on-device text recognition on the receipt photo. The app looks for a store name, a date, and a total, then matches the store against a bundled database of 106 return policies. The photo and its extracted text never leave your phone.</p>
           </div>
         </details>
 
@@ -103,7 +103,7 @@
             <span class="faq__indicator">+</span>
           </summary>
           <div class="faq__answer">
-            <p>Around 100 major retailers ship with the app — Amazon, Best Buy, Target, Costco, Nordstrom, Apple, IKEA, and more. Each includes return-window length, category exceptions (electronics vs. clothing), and a "what to bring" checklist. You can also add your own custom policy for any local or niche retailer.</p>
+            <p>106 major retailers ship with the app — Amazon, Best Buy, Target, Costco, Nordstrom, Apple, IKEA, and more. Each includes return-window length, category exceptions (electronics vs. clothing), and a "what to bring" checklist. You can also add your own custom policy for any local or niche retailer.</p>
           </div>
         </details>
 
@@ -123,7 +123,7 @@
             <span class="faq__indicator">+</span>
           </summary>
           <div class="faq__answer">
-            <p>Completely. The only thing the app ever sends over the network is CloudKit sync, which is optional. Scanning, reminders, search, widgets — all of it runs offline.</p>
+            <p>Completely. The only thing the app ever sends over the network is CloudKit sync, which is optional. Scanning, email parsing, reminders, search, widgets — all of it runs offline, on iPhone, iPad, and Mac.</p>
           </div>
         </details>
 
@@ -143,7 +143,7 @@
             <span class="faq__indicator">+</span>
           </summary>
           <div class="faq__answer">
-            <p>Two widgets ship with the app: a small Home Screen widget listing your most urgent items, and a Lock Screen widget showing the single next-expiring deadline. Both refresh when you add, archive, or return an item — and every six hours otherwise via BGAppRefreshTask.</p>
+            <p>Two widgets ship with the app: a small Home Screen widget listing your most urgent items, and a Lock Screen widget showing the single next-expiring deadline. Both are <em>interactive</em> — tap an item right on the lock screen to mark it returned without opening the app (iOS 17+). They refresh when you add, archive, or return an item, and every six hours otherwise via BGAppRefreshTask.</p>
           </div>
         </details>
 
@@ -174,6 +174,47 @@
           </summary>
           <div class="faq__answer">
             <p>Three shortcuts ship by default: "Show expiring items," "Add a receipt," and "Check return window for [product name]." All run through App Intents so they work from the Lock Screen, Spotlight, and the Shortcuts app.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>Is there a Mac version?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>Yes — and it's a native SwiftUI Mac app, not a Catalyst port. You get a proper sidebar, menu-bar commands (⌘N new receipt, ⌘F find, ⌘E export), Finder drag-and-drop for receipt images, and window state that restores on launch. Requires macOS 14 Sonoma or later. Your receipts sync with your iPhone and iPad through your own iCloud — no extra setup.</p>
+            <p style="margin-top: 12px; color: var(--mute); font-style: italic;">What's iOS-only: the camera scanner (no camera on Mac), Live Activities, Siri shortcuts, widgets, and the share extension. Everything else works identically.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>Can I import email receipts?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>Yes. From Mail, tap the share button on a receipt email and choose Receipt Folder. The app parses the sender, product, date, and total on-device — no inbox credentials or email contents ever leave your phone. Amazon, Apple, and Best Buy are the first three retailer parsers; more are on the way. Any retailer we don't yet template falls back to a best-effort parse that you can edit before saving.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>What is proof-of-return?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>When you mark an item returned, the app offers to capture a photo of the return-counter receipt and a short note — think <em>"Refunded to original card, ref #4412"</em>. Together with the timestamp, that's your paper trail if the retailer later disputes the refund. Optional, but strongly encouraged. The photo is stored locally and synced only via your own iCloud.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>Can I share receipts with my family?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>Yes — it's a beta feature in Settings → Family sharing. Create a "household" in the app and invite someone through the standard iOS share sheet. They get access only to the specific receipts you toggle <em>Share with household</em> on, nothing else. All of it runs through CloudKit's private sharing, so the data path is Apple's infrastructure — not ours. You can end sharing at any time, and no data is deleted on your side.</p>
           </div>
         </details>
 

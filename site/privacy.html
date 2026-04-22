@@ -36,7 +36,7 @@
     <section class="container masthead">
       <div class="masthead__meta">
         <span class="eyebrow">Legal</span>
-        <span class="eyebrow">Last revised · April 2026</span>
+        <span class="eyebrow">Last revised · April 21, 2026</span>
       </div>
       <hr class="rule">
       <h1 class="masthead__title">Privacy <em>policy.</em></h1>
@@ -60,31 +60,39 @@
         <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">I. What we collect</h3>
         <p>Nothing. Receipt Folder does not have a server. There is no analytics SDK, no crash reporter, no advertising identifier, no third-party tag. The app is fully self-contained on your device.</p>
 
-        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">II. What's stored on your phone</h3>
+        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">II. What's stored on your device</h3>
         <p>When you add a receipt, the app saves the following locally on your device (via Apple's SwiftData, which writes to a private app database):</p>
         <ul style="font-family: var(--serif); font-size: 17px; line-height: 1.6; padding-left: 24px; color: var(--ink);">
           <li>The product name, store, purchase date, and price you entered or scanned.</li>
           <li>The receipt photo and an optional item photo.</li>
           <li>The calculated return-window and warranty-expiry dates.</li>
           <li>Any notes you add.</li>
+          <li>If you capture proof-of-return: the counter-receipt photo, a timestamp, and your optional note.</li>
         </ul>
 
         <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">III. iCloud sync (optional)</h3>
-        <p>If you're signed into iCloud and have it enabled on your device, Receipt Folder uses a <strong>private CloudKit database</strong> — scoped to your Apple ID — to sync receipts between your iPhone and iPad. This is end-to-end between your own devices and Apple's servers; the developer has no access to it. If you disable iCloud or sign out, the app falls back to local-only storage automatically.</p>
+        <p>If you're signed into iCloud and have it enabled on your device, Receipt Folder uses a <strong>private CloudKit database</strong> — scoped to your Apple ID — to sync receipts between your iPhone, iPad, and Mac. This is end-to-end between your own devices and Apple's servers; the developer has no access to it. If you disable iCloud or sign out, the app falls back to local-only storage automatically.</p>
 
         <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">IV. Photo scanning</h3>
         <p>Receipt photos are processed by Apple's Vision framework on your device. No image or extracted text is sent to any server — not to us, not to Apple. On devices running iOS 26 or later, optional Foundation Models may be used for smarter receipt parsing; this also runs entirely on-device.</p>
 
+        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">IV-b. Email receipt import</h3>
+        <p>When you share a receipt email to the app from Mail, the subject and body of that email are handed to a parser that runs entirely on your device. No inbox credentials, email bodies, message IDs, or attachments are ever uploaded — the feature is a one-time share from Mail to Receipt Folder, not a background inbox scanner. The parsed result is then saved as a regular receipt (see II).</p>
+
+        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">IV-c. Household sharing (optional)</h3>
+        <p>If you opt into household sharing (Settings → Family sharing), the app creates a <strong>CloudKit shared record zone</strong> under your own iCloud account and invites participants through the standard iOS share sheet. Only receipts you explicitly flag <em>Share with household</em> are mirrored into that zone; all other receipts stay private. We never see the invite, the participants, or the shared records — the entire flow runs through Apple's CloudKit sharing primitives. You can end sharing at any time in Settings, which revokes participant access immediately.</p>
+
         <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">V. Permissions</h3>
         <p>We ask for only what a feature actively needs:</p>
         <ul style="font-family: var(--serif); font-size: 17px; line-height: 1.6; padding-left: 24px; color: var(--ink);">
-          <li><strong>Camera</strong> — when you choose to scan a receipt or take an item photo.</li>
+          <li><strong>Camera</strong> — when you choose to scan a receipt, take an item photo, or capture proof-of-return.</li>
           <li><strong>Photo Library</strong> — when you choose to import a photo.</li>
           <li><strong>Notifications</strong> — to deliver the reminders you asked for.</li>
           <li><strong>Face ID / Touch ID</strong> — only if you enable app lock.</li>
           <li><strong>Calendar</strong> — only when you tap "Add to Calendar" on an item.</li>
+          <li><strong>Mail share sheet</strong> — invoked <em>by you</em> when you share an email receipt to the app; the app never reads your inbox.</li>
         </ul>
-        <p>Each permission can be revoked at any time in iOS Settings.</p>
+        <p>Each permission can be revoked at any time in system Settings.</p>
 
         <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">VI. Third parties</h3>
         <p>There are none. No ad networks. No analytics vendors. No crash reporting. The only external communication the app ever does is with Apple's iCloud on your behalf, and only if you've signed in.</p>

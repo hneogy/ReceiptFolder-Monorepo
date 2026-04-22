@@ -107,7 +107,49 @@ final class HouseholdStore {
         CKContainer(identifier: AppGroupConstants.cloudKitContainerID)
     }
 
-    private init() {}
+    // MARK: - Delta-sync state
+    //
+    // We fetch with CKFetchRecordZoneChangesOperation on every refresh, not
+    // a full CKQueryOperation. That means after the initial seed, each
+    // refresh only transfers the records that actually changed since our
+    // last server change token. For a household with a thousand receipts
+    // and one daily edit, this drops the payload from ~N records to 1.
+    //
+    // State we maintain:
+    //  - `zoneRecords`: in-memory cache of every record we've seen, keyed
+    //     by CKRecord.ID. The source of truth for what we render.
+    //  - `zoneTokens`: per-zone CKServerChangeToken, persisted in UserDefaults
+    //     so a cold launch doesn't re-download everything.
+    //  - `databaseTokens`: per-database change token (private + shared), also
+    //     persisted. Used by CKFetchDatabaseChangesOperation to discover new
+    //     or removed zones (e.g. a freshly-accepted invite adds a new zone
+    //     to sharedCloudDatabase).
+
+    private struct CachedRecord {
+        let record: CKRecord
+        let origin: HouseholdReceipt.Origin
+        let ownerDisplayName: String
+    }
+
+    /// Flat cache keyed by CKRecord.ID so a delete token from CloudKit can
+    /// be applied in O(1).
+    private var cache: [CKRecord.ID: CachedRecord] = [:]
+
+    private enum DefaultsKey {
+        static let privateDBToken = "household.privateDBToken.v1"
+        static let sharedDBToken = "household.sharedDBToken.v1"
+        static let zoneTokenPrefix = "household.zoneToken.v1."
+    }
+
+    private init() {
+        // Load any persisted cached records. We keep the CKRecord objects
+        // themselves only in memory — persisting CKRecords between launches
+        // is possible (archivedData + CKRecord(coder:)) but the savings
+        // aren't worth the complexity for v1; a cold launch re-fetches
+        // everything against the existing tokens, which returns an empty
+        // delta (no network payload) and tells us "you're up to date."
+        // What does persist are the tokens themselves.
+    }
 
     // MARK: - Push subscriptions
     //
@@ -168,45 +210,68 @@ final class HouseholdStore {
 
     // MARK: - Refresh
 
-    /// Full re-read from both DBs. Cheap in practice — the query is scoped
-    /// to one record type across at most a handful of zones. For large
-    /// households we'd switch to `CKFetchRecordZoneChangesOperation` with a
-    /// change token; v1 of de-beta-ing keeps it to one query.
+    /// Pulls deltas from both CloudKit databases using change tokens and
+    /// rebuilds the `records` array from the in-memory cache. Call on:
+    ///
+    /// - App foreground (warm path — typically no-op if nothing changed)
+    /// - Incoming silent push (`handlePushedChange`)
+    /// - Right after accepting an invite (seeds the cache for the new zone)
+    /// - Right after an outbound mirror write (optimistic UI catch-up)
+    ///
+    /// Cold-launch semantics: tokens persist in UserDefaults but the
+    /// in-memory cache does not. On the first refresh after launch, if
+    /// the cache is empty, we invalidate the stored tokens and do a full
+    /// seed fetch. That gives us the records we need to render without
+    /// having to serialize CKRecords between launches.
     func refresh() async {
         isLoading = true
         defer { isLoading = false }
 
-        var merged: [HouseholdReceipt] = []
+        // Cold launch recovery: tokens without cache is useless — CloudKit
+        // would return an empty delta, leaving the vault blank. Drop the
+        // tokens so the upcoming fetches seed from scratch.
+        if cache.isEmpty && (storedDatabaseToken(.private) != nil || storedDatabaseToken(.shared) != nil) {
+            householdLog.info("Cache empty on cold launch; invalidating persisted tokens for full reseed")
+            clearAllTokens()
+        }
 
-        // Owned side — our private DB, if the household zone exists there.
+        // Private DB — our owned household zone, if it exists.
         do {
-            let owned = try await fetchOwnedRecords()
-            merged.append(contentsOf: owned)
+            try await syncDatabase(.private)
         } catch let error as CKError where error.code == .zoneNotFound || error.code == .unknownItem {
-            // No household owned here — normal for participants-only.
+            // Fine — no household owned here.
         } catch {
-            householdLog.error("HouseholdStore owned-fetch failed: \(error.localizedDescription)")
+            householdLog.error("HouseholdStore private-sync failed: \(error.localizedDescription)")
             self.lastError = error.localizedDescription
         }
 
-        // Participant side — walk all zones in our sharedCloudDatabase.
+        // Shared DB — all zones we've joined.
         do {
-            let participant = try await fetchParticipantRecords()
-            merged.append(contentsOf: participant)
+            try await syncDatabase(.shared)
         } catch {
-            householdLog.error("HouseholdStore participant-fetch failed: \(error.localizedDescription)")
+            householdLog.error("HouseholdStore shared-sync failed: \(error.localizedDescription)")
             self.lastError = error.localizedDescription
         }
 
-        // De-dup by id (ownership-is-also-joined edge case) — owned wins.
+        rebuildRecordsFromCache()
+        self.lastFetched = .now
+    }
+
+    private func rebuildRecordsFromCache() {
+        // De-dup by record name — owned wins over participant for the edge
+        // case where the owner is also somehow joined.
         var byID: [String: HouseholdReceipt] = [:]
-        for rec in merged {
-            if let existing = byID[rec.id], existing.origin == .owned { continue }
-            byID[rec.id] = rec
+        for (_, cached) in cache {
+            let projected = map(
+                record: cached.record,
+                origin: cached.origin,
+                ownerDisplayName: cached.ownerDisplayName
+            )
+            if let existing = byID[projected.id], existing.origin == .owned { continue }
+            byID[projected.id] = projected
         }
         self.records = byID.values.sorted { $0.modifiedAt > $1.modifiedAt }
-        self.lastFetched = .now
-        if !merged.isEmpty { self.lastError = nil }
+        if !cache.isEmpty { self.lastError = nil }
     }
 
     // MARK: - Write-back
@@ -247,71 +312,206 @@ final class HouseholdStore {
         await refresh()
     }
 
-    // MARK: - Private fetch helpers
+    // MARK: - Delta sync — database + zone changes
 
-    private func fetchOwnedRecords() async throws -> [HouseholdReceipt] {
-        let db = container.privateCloudDatabase
-        let zoneID = HouseholdConstants.rootRecordID.zoneID
-        return try await fetchAllRecords(
-            in: db, zoneID: zoneID, origin: .owned, ownerDisplayName: "You"
-        )
+    private enum DatabaseKind {
+        case `private`, shared
     }
 
-    private func fetchParticipantRecords() async throws -> [HouseholdReceipt] {
-        let db = container.sharedCloudDatabase
-        let zones = try await db.allRecordZones()
-        var all: [HouseholdReceipt] = []
-        for zone in zones {
-            // Best-effort owner name — the zone's owner record name is an
-            // opaque CloudKit identifier, not human text. We fetch the share
-            // root to try for a CKShare.Metadata that carries a display name.
-            let name = (try? await participantDisplayName(in: zone, db: db)) ?? "Shared"
-            let zoneRecords = try await fetchAllRecords(
-                in: db, zoneID: zone.zoneID, origin: .participant, ownerDisplayName: name
-            )
-            all.append(contentsOf: zoneRecords)
+    /// Resolve the CKDatabase for a given kind — separated so tests can
+    /// substitute fakes and the per-kind default-key lookup stays readable.
+    private func db(for kind: DatabaseKind) -> CKDatabase {
+        switch kind {
+        case .private: return container.privateCloudDatabase
+        case .shared: return container.sharedCloudDatabase
         }
-        return all
     }
 
-    /// Core query loop — pulls every `SharedReceiptItem` in a zone and
-    /// maps them into `HouseholdReceipt`s.
-    private func fetchAllRecords(
-        in db: CKDatabase,
-        zoneID: CKRecordZone.ID,
-        origin: HouseholdReceipt.Origin,
-        ownerDisplayName: String
-    ) async throws -> [HouseholdReceipt] {
-        let query = CKQuery(
-            recordType: HouseholdConstants.itemRecordType,
-            predicate: NSPredicate(value: true)
-        )
-        var cursor: CKQueryOperation.Cursor?
-        var out: [HouseholdReceipt] = []
+    /// Drive a full delta sync against one database. Two-phase:
+    /// 1. `CKFetchDatabaseChangesOperation` discovers which zones have
+    ///    changed, been added, or been removed since our last DB token.
+    /// 2. For each changed zone, `CKFetchRecordZoneChangesOperation` pulls
+    ///    the per-record deltas (adds, modifies, deletes).
+    private func syncDatabase(_ kind: DatabaseKind) async throws {
+        let database = db(for: kind)
 
-        repeat {
-            let page: (matchResults: [(CKRecord.ID, Result<CKRecord, Error>)], queryCursor: CKQueryOperation.Cursor?)
-            if let cursor {
-                page = try await db.records(continuingMatchFrom: cursor)
-            } else {
-                page = try await db.records(matching: query, inZoneWith: zoneID)
+        // Phase 1: discover changed zones.
+        let dbResult = try await fetchDatabaseChanges(on: database, kind: kind)
+
+        // Apply zone-level deletions first (revoked shares, etc.).
+        for zoneID in dbResult.deletedZoneIDs {
+            evictZoneFromCache(zoneID)
+            clearZoneToken(zoneID)
+        }
+
+        // For the private DB, the only zone we care about is our household
+        // zone. If we've never synced it, discover says "no changes" because
+        // the server's tracked state for us is empty. Seed it explicitly.
+        var zonesToSync = dbResult.changedZoneIDs
+        if kind == .private {
+            let ownedZone = HouseholdConstants.rootRecordID.zoneID
+            if !zonesToSync.contains(ownedZone) && storedZoneToken(ownedZone) == nil {
+                zonesToSync.append(ownedZone)
             }
-            for (_, result) in page.matchResults {
-                if case .success(let ck) = result {
-                    out.append(map(record: ck, origin: origin, ownerDisplayName: ownerDisplayName))
+        }
+
+        // Phase 2: pull record deltas per zone.
+        for zoneID in zonesToSync {
+            let ownerName: String
+            if kind == .private {
+                ownerName = "You"
+            } else {
+                ownerName = (try? await participantDisplayName(in: zoneID, db: database)) ?? "Shared"
+            }
+            try await syncZone(
+                zoneID,
+                in: database,
+                origin: kind == .private ? .owned : .participant,
+                ownerDisplayName: ownerName
+            )
+        }
+    }
+
+    /// Runs `CKFetchDatabaseChangesOperation` and collects the results into a
+    /// simple value type. Resumes the async continuation only after the
+    /// operation's completion block — not inside per-record blocks — so the
+    /// caller sees a single, coherent result.
+    private func fetchDatabaseChanges(
+        on database: CKDatabase,
+        kind: DatabaseKind
+    ) async throws -> DatabaseChangeResult {
+        let result: DatabaseChangeResult = try await withCheckedThrowingContinuation { continuation in
+            let op = CKFetchDatabaseChangesOperation(
+                previousServerChangeToken: storedDatabaseToken(kind)
+            )
+            var changed: [CKRecordZone.ID] = []
+            var deleted: [CKRecordZone.ID] = []
+            var newToken: CKServerChangeToken?
+
+            op.recordZoneWithIDChangedBlock = { changed.append($0) }
+            op.recordZoneWithIDWasDeletedBlock = { deleted.append($0) }
+            op.changeTokenUpdatedBlock = { newToken = $0 }
+            op.fetchDatabaseChangesResultBlock = { outcome in
+                switch outcome {
+                case .success(let (token, _)):
+                    newToken = token
+                    continuation.resume(returning: DatabaseChangeResult(
+                        changedZoneIDs: changed,
+                        deletedZoneIDs: deleted,
+                        newToken: newToken
+                    ))
+                case .failure(let error):
+                    continuation.resume(throwing: error)
                 }
             }
-            cursor = page.queryCursor
-        } while cursor != nil
+            database.add(op)
+        }
 
-        return out
+        // Persist the new database token once the operation succeeds, so
+        // the next call only fetches zones that changed after this one.
+        if let token = result.newToken {
+            setDatabaseToken(token, for: kind)
+        }
+        return result
     }
 
-    private func participantDisplayName(in zone: CKRecordZone, db: CKDatabase) async throws -> String? {
+    private struct DatabaseChangeResult {
+        let changedZoneIDs: [CKRecordZone.ID]
+        let deletedZoneIDs: [CKRecordZone.ID]
+        let newToken: CKServerChangeToken?
+    }
+
+    /// Pulls one zone's record deltas and folds them into the cache.
+    /// Applies deletions, upserts changed/added records, and persists the
+    /// updated per-zone change token on success.
+    private func syncZone(
+        _ zoneID: CKRecordZone.ID,
+        in database: CKDatabase,
+        origin: HouseholdReceipt.Origin,
+        ownerDisplayName: String
+    ) async throws {
+        let previousToken = storedZoneToken(zoneID)
+
+        let result: ZoneChangeResult = try await withCheckedThrowingContinuation { continuation in
+            let config = CKFetchRecordZoneChangesOperation.ZoneConfiguration()
+            config.previousServerChangeToken = previousToken
+            let op = CKFetchRecordZoneChangesOperation(
+                recordZoneIDs: [zoneID],
+                configurationsByRecordZoneID: [zoneID: config]
+            )
+            var changed: [CKRecord] = []
+            var deletedIDs: [CKRecord.ID] = []
+            var newToken: CKServerChangeToken?
+
+            op.recordWasChangedBlock = { _, outcome in
+                if case .success(let record) = outcome {
+                    changed.append(record)
+                }
+            }
+            op.recordWithIDWasDeletedBlock = { id, _ in
+                deletedIDs.append(id)
+            }
+            op.recordZoneChangeTokensUpdatedBlock = { _, token, _ in
+                if let token { newToken = token }
+            }
+            op.recordZoneFetchResultBlock = { _, outcome in
+                switch outcome {
+                case .success(let (token, _, _)):
+                    newToken = token
+                case .failure:
+                    break // surfaced in fetchRecordZoneChangesResultBlock
+                }
+            }
+            op.fetchRecordZoneChangesResultBlock = { outcome in
+                switch outcome {
+                case .success:
+                    continuation.resume(returning: ZoneChangeResult(
+                        changedRecords: changed,
+                        deletedRecordIDs: deletedIDs,
+                        newToken: newToken
+                    ))
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+            database.add(op)
+        }
+
+        // Apply deletions.
+        for id in result.deletedRecordIDs {
+            cache.removeValue(forKey: id)
+        }
+        // Upsert changes — but skip CKShare / HouseholdRoot records; we
+        // only cache SharedReceiptItem entries for vault display.
+        for record in result.changedRecords where record.recordType == HouseholdConstants.itemRecordType {
+            cache[record.recordID] = CachedRecord(
+                record: record,
+                origin: origin,
+                ownerDisplayName: ownerDisplayName
+            )
+        }
+        // Persist the new token so the next sync is a no-op if nothing
+        // changed again.
+        if let newToken = result.newToken {
+            setZoneToken(newToken, for: zoneID)
+        }
+    }
+
+    private struct ZoneChangeResult {
+        let changedRecords: [CKRecord]
+        let deletedRecordIDs: [CKRecord.ID]
+        let newToken: CKServerChangeToken?
+    }
+
+    private func evictZoneFromCache(_ zoneID: CKRecordZone.ID) {
+        cache = cache.filter { $0.key.zoneID != zoneID }
+    }
+
+    private func participantDisplayName(in zoneID: CKRecordZone.ID, db: CKDatabase) async throws -> String? {
         // The share itself is a regular record named `cloudkit.zoneshare`
         // (well-known). Fetching it gives us access to participants — the
         // owner is identifiable there.
-        let shareID = CKRecord.ID(recordName: "cloudkit.zoneshare", zoneID: zone.zoneID)
+        let shareID = CKRecord.ID(recordName: "cloudkit.zoneshare", zoneID: zoneID)
         guard let share = try? await db.record(for: shareID) as? CKShare else { return nil }
         if let owner = share.participants.first(where: { $0.role == .owner }),
            let components = owner.userIdentity.nameComponents {
@@ -319,6 +519,73 @@ final class HouseholdStore {
         }
         return share.participants.first(where: { $0.role == .owner })?
             .userIdentity.lookupInfo?.emailAddress
+    }
+
+    // MARK: - Token persistence
+    //
+    // CKServerChangeToken conforms to NSSecureCoding. We archive to Data
+    // with NSKeyedArchiver and stash in UserDefaults, keyed by DB kind or
+    // zone ID. Small (~200 bytes per token), safe across app restarts.
+
+    private func storedDatabaseToken(_ kind: DatabaseKind) -> CKServerChangeToken? {
+        let key = (kind == .private) ? DefaultsKey.privateDBToken : DefaultsKey.sharedDBToken
+        return readToken(forKey: key)
+    }
+
+    private func setDatabaseToken(_ token: CKServerChangeToken, for kind: DatabaseKind) {
+        let key = (kind == .private) ? DefaultsKey.privateDBToken : DefaultsKey.sharedDBToken
+        writeToken(token, forKey: key)
+    }
+
+    private func storedZoneToken(_ zoneID: CKRecordZone.ID) -> CKServerChangeToken? {
+        readToken(forKey: zoneTokenKey(zoneID))
+    }
+
+    private func setZoneToken(_ token: CKServerChangeToken, for zoneID: CKRecordZone.ID) {
+        writeToken(token, forKey: zoneTokenKey(zoneID))
+    }
+
+    private func clearZoneToken(_ zoneID: CKRecordZone.ID) {
+        UserDefaults.standard.removeObject(forKey: zoneTokenKey(zoneID))
+    }
+
+    /// Wipe every token. Used on cold-launch cache-empty detection to
+    /// force a full reseed.
+    private func clearAllTokens() {
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: DefaultsKey.privateDBToken)
+        defaults.removeObject(forKey: DefaultsKey.sharedDBToken)
+        // Zone tokens — we don't know every key, so sweep the prefix.
+        for key in defaults.dictionaryRepresentation().keys where key.hasPrefix(DefaultsKey.zoneTokenPrefix) {
+            defaults.removeObject(forKey: key)
+        }
+    }
+
+    private func zoneTokenKey(_ zoneID: CKRecordZone.ID) -> String {
+        "\(DefaultsKey.zoneTokenPrefix)\(zoneID.ownerName)/\(zoneID.zoneName)"
+    }
+
+    private func readToken(forKey key: String) -> CKServerChangeToken? {
+        guard let data = UserDefaults.standard.data(forKey: key) else { return nil }
+        do {
+            return try NSKeyedUnarchiver.unarchivedObject(
+                ofClass: CKServerChangeToken.self, from: data
+            )
+        } catch {
+            householdLog.error("readToken(\(key)) decode failed: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
+    private func writeToken(_ token: CKServerChangeToken, forKey key: String) {
+        do {
+            let data = try NSKeyedArchiver.archivedData(
+                withRootObject: token, requiringSecureCoding: true
+            )
+            UserDefaults.standard.set(data, forKey: key)
+        } catch {
+            householdLog.error("writeToken(\(key)) encode failed: \(error.localizedDescription)")
+        }
     }
 
     private func map(record: CKRecord, origin: HouseholdReceipt.Origin, ownerDisplayName: String) -> HouseholdReceipt {

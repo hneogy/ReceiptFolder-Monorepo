@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Press Kit — Receipt Folder</title>
+  <meta name="description" content="Press kit for Receipt Folder — the privacy-first app for return windows and warranties. Logos, screenshots, boilerplate, and contact.">
+  <meta name="theme-color" content="#F5F1E8">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/logo@2x.png">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .press-fact {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: var(--s-3);
+      padding: var(--s-3) 0;
+      border-bottom: 0.5px solid var(--rule);
+      font-family: var(--serif);
+      font-size: 15px;
+    }
+    .press-fact dt {
+      font: 500 11px/1.4 var(--mono);
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--mute);
+      padding-top: 3px;
+    }
+    .press-fact dd { margin: 0; color: var(--ink); }
+    .press-fact dd a { color: var(--signal); text-decoration: underline; }
+
+    .press-pull {
+      font-family: var(--serif);
+      font-size: 22px;
+      line-height: 1.45;
+      color: var(--ink);
+      padding: var(--s-4) var(--s-4);
+      border-left: 3px solid var(--signal);
+      background: var(--paper-dim);
+      margin: var(--s-5) 0;
+    }
+    .press-pull em { color: var(--signal); }
+
+    .press-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: var(--s-4);
+      margin-top: var(--s-4);
+    }
+    .press-card {
+      border: 0.5px solid var(--rule);
+      padding: var(--s-4);
+      background: var(--paper);
+    }
+    .press-card h3 {
+      font: 400 18px/1.3 var(--serif);
+      margin: 0 0 var(--s-2);
+      color: var(--ink);
+    }
+    .press-card p {
+      font: 400 13px/1.5 var(--serif);
+      font-style: italic;
+      color: var(--mute);
+      margin: 0 0 var(--s-3);
+    }
+    .press-card a {
+      font: 500 11px/1 var(--mono);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 2px;
+    }
+    .press-card a:hover { color: var(--signal); border-color: var(--signal); }
+
+    .boilerplate {
+      font: 400 15px/1.7 var(--serif);
+      color: var(--ink);
+      background: var(--paper-dim);
+      padding: var(--s-4);
+      border-left: 2px solid var(--ink);
+      margin-top: var(--s-3);
+    }
+
+    .press-numbers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0;
+      border-top: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+      margin: var(--s-5) 0;
+    }
+    .press-number {
+      padding: var(--s-4) var(--s-3);
+      border-right: 0.5px solid var(--rule);
+      text-align: center;
+    }
+    .press-number:last-child { border-right: none; }
+    .press-number .n {
+      font: 400 42px/1 var(--serif);
+      color: var(--ink);
+      display: block;
+    }
+    .press-number .n em { color: var(--signal); font-style: italic; }
+    .press-number .l {
+      font: 500 10px/1.4 var(--mono);
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--mute);
+      display: block;
+      margin-top: var(--s-2);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand">
+        <img src="assets/logo.png" alt="" aria-hidden="true">
+        <span>Receipt<em>Folder</em></span>
+      </a>
+      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <div class="nav__links" id="navLinks">
+        <a href="index.html">Overview</a>
+        <a href="compare.html">Compare</a>
+        <a href="faq.html">FAQ</a>
+        <a href="press.html">Press</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <a href="index.html#download" class="nav__cta">Get the app</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <section class="container masthead">
+      <div class="masthead__meta">
+        <span class="eyebrow">Press kit</span>
+        <span class="eyebrow">For writers &amp; editors</span>
+      </div>
+      <hr class="rule">
+      <h1 class="masthead__title">The <em>press kit.</em></h1>
+      <p class="masthead__dek">Everything you need to write about Receipt Folder — the privacy-first app for tracking return windows and warranties. Logos, screenshots, boilerplate, a few numbers, and one email.</p>
+      <hr class="hairline" style="margin-top: var(--s-5);">
+    </section>
+
+    <section class="container section" style="padding-top: 0;">
+      <h2 class="section__eyebrow">At a glance</h2>
+
+      <dl style="margin: var(--s-4) 0 0;">
+        <div class="press-fact">
+          <dt>App name</dt>
+          <dd>Receipt Folder</dd>
+        </div>
+        <div class="press-fact">
+          <dt>Tagline</dt>
+          <dd>Return windows &amp; warranties, on your terms.</dd>
+        </div>
+        <div class="press-fact">
+          <dt>Price</dt>
+          <dd>Free. No subscription, no account, no in-app purchases.</dd>
+        </div>
+        <div class="press-fact">
+          <dt>Platforms</dt>
+          <dd>iPhone &amp; iPad (iOS 17+), Mac (macOS 14+). Native on each — no Catalyst port.</dd>
+        </div>
+        <div class="press-fact">
+          <dt>Developer</dt>
+          <dd>Honorius M. Neogy — independent, Brooklyn, NY</dd>
+        </div>
+        <div class="press-fact">
+          <dt>Website</dt>
+          <dd><a href="https://receiptfolder.app/">receiptfolder.app</a></dd>
+        </div>
+        <div class="press-fact">
+          <dt>App Store</dt>
+          <dd><a href="https://apps.apple.com/us/app/receipt-folder/">apps.apple.com — Receipt Folder</a></dd>
+        </div>
+        <div class="press-fact">
+          <dt>Press contact</dt>
+          <dd><a href="mailto:press@receiptfolder.app">press@receiptfolder.app</a> · Response within 24 hours</dd>
+        </div>
+        <div class="press-fact">
+          <dt>Review copies</dt>
+          <dd>Promo codes available for press &amp; reviewers — email us.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="container section">
+      <h2 class="section__eyebrow">The sentence</h2>
+      <p class="press-pull">
+        Receipt Folder is the only receipt-tracking app that is <em>100% private, 100% free</em>, and works everywhere you already are — on your iPhone, iPad, and Mac, without accounts, subscriptions, or cloud OCR.
+      </p>
+    </section>
+
+    <section class="container section">
+      <h2 class="section__eyebrow">A few numbers</h2>
+
+      <div class="press-numbers">
+        <div class="press-number">
+          <span class="n">106</span>
+          <span class="l">Retailer policies<br>bundled</span>
+        </div>
+        <div class="press-number">
+          <span class="n">9</span>
+          <span class="l">OCR languages<br>on device</span>
+        </div>
+        <div class="press-number">
+          <span class="n"><em>0</em></span>
+          <span class="l">Accounts<br>required</span>
+        </div>
+        <div class="press-number">
+          <span class="n"><em>$0</em></span>
+          <span class="l">Forever</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section">
+      <h2 class="section__eyebrow">What makes it different</h2>
+      <ul style="list-style: none; padding: 0; margin: var(--s-4) 0 0; font-family: var(--serif); font-size: 16px; line-height: 1.7; color: var(--ink);">
+        <li style="padding: var(--s-3) 0; border-bottom: 0.5px solid var(--rule);"><strong>Return Mode.</strong> A fullscreen, in-store view with the receipt, barcode, and policy — no other app does this.</li>
+        <li style="padding: var(--s-3) 0; border-bottom: 0.5px solid var(--rule);"><strong>Nothing leaves your device.</strong> OCR is Apple Vision. Sync is your iCloud, not ours. We don't have a server.</li>
+        <li style="padding: var(--s-3) 0; border-bottom: 0.5px solid var(--rule);"><strong>Proof-of-return capture.</strong> When you mark an item returned, snap the return-counter receipt and item photo. Protects you against disputes.</li>
+        <li style="padding: var(--s-3) 0; border-bottom: 0.5px solid var(--rule);"><strong>Email receipts, parsed on device.</strong> Share any digital receipt from Mail — Amazon, Apple, Best Buy — and it's parsed without a round-trip to a cloud.</li>
+        <li style="padding: var(--s-3) 0; border-bottom: 0.5px solid var(--rule);"><strong>Household sharing.</strong> Opt-in, per-receipt. Your spouse sees only what you share, through CloudKit — not through us.</li>
+        <li style="padding: var(--s-3) 0;"><strong>Editorial design.</strong> Cream paper, serif type, perforations, monospace metadata. Looks like a printed almanac, not a SaaS app.</li>
+      </ul>
+    </section>
+
+    <section class="container section">
+      <h2 class="section__eyebrow">Boilerplate</h2>
+      <div class="boilerplate">
+        Receipt Folder is a privacy-first iOS, iPadOS, and macOS app that tracks return windows and warranties from receipt photos or emailed confirmations. All OCR runs on-device using Apple's Vision framework; sync is through the user's iCloud account — the developer has no server and never sees user data. The app is free forever, with no accounts, subscriptions, ads, or in-app purchases. Created by independent developer Honorius M. Neogy in Brooklyn, NY.
+      </div>
+    </section>
+
+    <section class="container section">
+      <h2 class="section__eyebrow">Downloads</h2>
+      <div class="press-grid">
+        <div class="press-card">
+          <h3>App icon</h3>
+          <p>PNG &amp; SVG, light &amp; dark variants. 1024×1024 source.</p>
+          <a href="assets/logo@2x.png" download>Download icon</a>
+        </div>
+        <div class="press-card">
+          <h3>Screenshots</h3>
+          <p>Eight production screenshots for iPhone &amp; iPad, plus macOS hero.</p>
+          <a href="mailto:press@receiptfolder.app?subject=Screenshot%20pack">Request the pack</a>
+        </div>
+        <div class="press-card">
+          <h3>Preview video</h3>
+          <p>30-second walkthrough. 1080p MP4. No narration — captioned.</p>
+          <a href="mailto:press@receiptfolder.app?subject=Preview%20video">Request the video</a>
+        </div>
+        <div class="press-card">
+          <h3>Developer portrait</h3>
+          <p>High-res portrait of Honorius M. Neogy for bylined pieces.</p>
+          <a href="mailto:press@receiptfolder.app?subject=Developer%20portrait">Request the portrait</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section">
+      <h2 class="section__eyebrow">Why this, why now</h2>
+      <p style="font-family: var(--serif); font-size: 16px; line-height: 1.7; color: var(--ink);">
+        Every app in this category is a subscription product owned by a company with a cloud, a customer database, and a growth target. <em>SimplyWise</em> costs $24–30 a year. <em>Shoeboxed</em> costs $144. Both have hundreds of one-star reviews complaining about surprise charges, disappearing receipts, and slow support. Receipt Folder is the opposite bet: a single developer, no server, no pricing page, polished iOS-native design — built because the best way to track your receipts is with an app that has no interest in any of them.
+      </p>
+    </section>
+
+    <section class="container section">
+      <h2 class="section__eyebrow">About the developer</h2>
+      <p style="font-family: var(--serif); font-size: 16px; line-height: 1.7; color: var(--ink);">
+        Honorius M. Neogy is an independent iOS developer based in Brooklyn, NY. He built Receipt Folder after losing $340 to a missed return window on a monitor from Best Buy. He writes at <a href="https://neogy.dev/" style="color: var(--signal);">neogy.dev</a> and talks about software craft and the economics of indie apps.
+      </p>
+    </section>
+
+    <section class="container section" style="padding-bottom: var(--s-6);">
+      <hr class="rule" style="margin-bottom: var(--s-4);">
+      <p style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--mute); text-align: center;">
+        Last updated · April 2026 · <a href="mailto:press@receiptfolder.app" style="color: var(--ink);">press@receiptfolder.app</a>
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__brand">Receipt<em>Folder</em></p>
+      <nav class="footer__nav" aria-label="Footer">
+        <a href="index.html">Overview</a>
+        <a href="compare.html">Compare</a>
+        <a href="faq.html">FAQ</a>
+        <a href="press.html">Press</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <p class="footer__credit">&copy; 2026 Honorius M. Neogy</p>
+    </div>
+  </footer>
+
+  <script src="js/nav.js" defer></script>
+</body>
+</html>

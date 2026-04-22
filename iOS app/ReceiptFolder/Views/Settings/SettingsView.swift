@@ -560,6 +560,12 @@ struct SettingsView: View {
 
             RFHairline()
 
+            navLink(destination: AnyView(ChangelogView()),
+                    label: "Release notes",
+                    value: "v1.3")
+
+            RFHairline()
+
             exportRow
         }
     }

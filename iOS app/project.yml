@@ -36,6 +36,8 @@ targets:
     dependencies:
       - target: ReceiptFolderWidget
         embed: true
+      - target: ReceiptFolderShareExtension
+        embed: true
     entitlements:
       path: ReceiptFolder/Resources/ReceiptFolder.entitlements
       properties:
@@ -64,6 +66,29 @@ targets:
     entitlements:
       path: ReceiptFolderWidget/ReceiptFolderWidget.entitlements
       properties:
+        com.apple.security.application-groups:
+          - group.com.receiptfolder.app
+
+  ReceiptFolderShareExtension:
+    type: app-extension
+    platform: iOS
+    scheme: {}
+    sources:
+      - path: ReceiptFolderShareExtension
+      - path: Shared
+    settings:
+      base:
+        INFOPLIST_FILE: ReceiptFolderShareExtension/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.receiptfolder.app.share
+        CODE_SIGN_ENTITLEMENTS: ReceiptFolderShareExtension/ReceiptFolderShareExtension.entitlements
+    entitlements:
+      path: ReceiptFolderShareExtension/ReceiptFolderShareExtension.entitlements
+      properties:
+        com.apple.developer.icloud-services:
+          - CloudKit
+        com.apple.developer.ubiquity-kvstore-identifier: "$(TeamIdentifierPrefix)$(CFBundleIdentifier)"
+        com.apple.developer.icloud-container-identifiers:
+          - iCloud.com.receiptfolder.app
         com.apple.security.application-groups:
           - group.com.receiptfolder.app
 

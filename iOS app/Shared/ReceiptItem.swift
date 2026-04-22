@@ -35,6 +35,15 @@ final class ReceiptItem {
     var notes: String = ""
     var createdAt: Date = Date()
 
+    // MARK: - Return proof (W3)
+    // Captured when the user marks an item returned. Optional but heavily
+    // encouraged for disputes: a photo of the return-counter receipt + the
+    // item + timestamp means the retailer can't claim the return never
+    // happened. `returnedAt` records exactly when the user marked it returned.
+    @Attribute(.externalStorage) var returnProofImageData: Data?
+    var returnProofNote: String = ""
+    var returnedAt: Date?
+
     init(
         id: UUID = UUID(),
         productName: String,

@@ -33,6 +33,7 @@
 		57EFEA6084F4D57768AEFE40 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8922154D6E10249836975BF /* LiveActivityManager.swift */; };
 		68B7F04E84B8873148E93DE5 /* ReturnDecisionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A38C78944CC1F2084FDD97 /* ReturnDecisionEngine.swift */; };
 		6A0F8834B44CB37C834495BF /* MarkReturnedIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8E9163240153C9A0EEB889 /* MarkReturnedIntent.swift */; };
+		6B543BF71F6FABC8C8C547AD /* ReturnConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69AAB316B7C6179189C66EA /* ReturnConfirmationView.swift */; };
 		7071EECBB48944178511CF32 /* ArchivedItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41B610A05BB22F779E32C86 /* ArchivedItemsView.swift */; };
 		712242CCB5DBC0232D67C426 /* UrgencyLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D803203D48CAE92E0C28CBA1 /* UrgencyLevelTests.swift */; };
 		762E3C827B054FEE23050245 /* OCRResultReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2A7EBDC25A89507DB62A1E /* OCRResultReviewView.swift */; };
@@ -183,6 +184,7 @@
 		DE6C6AD1282689DA81557765 /* WidgetDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataProvider.swift; sourceTree = "<group>"; };
 		DEEE4BAE58CD69264DC49197 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E24960F50AB6226A2DA7C70F /* ReceiptCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptCameraView.swift; sourceTree = "<group>"; };
+		E69AAB316B7C6179189C66EA /* ReturnConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnConfirmationView.swift; sourceTree = "<group>"; };
 		E7591A43A5E66BF6069E0C5A /* ReceiptFolderWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ReceiptFolderWidget.entitlements; sourceTree = "<group>"; };
 		EBC65A17D71138E95621235E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F10B57D1DBDC3A45719F0E3F /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				165D8B2ADF8856BD6B45B906 /* ItemDetailView.swift */,
+				E69AAB316B7C6179189C66EA /* ReturnConfirmationView.swift */,
 				2CE4A60EE83521F583570FCE /* ReturnModeView.swift */,
 			);
 			path = Detail;
@@ -598,6 +601,7 @@
 				EF14AC0BAC50FB355BE81647 /* ReceiptImageEnhancer.swift in Sources */,
 				3383A00E42F3D68FBF0C457D /* ReceiptItem.swift in Sources */,
 				045E039364C1555912E72893 /* ReceiptTips.swift in Sources */,
+				6B543BF71F6FABC8C8C547AD /* ReturnConfirmationView.swift in Sources */,
 				68B7F04E84B8873148E93DE5 /* ReturnDecisionEngine.swift in Sources */,
 				D743C08000687938A390FB53 /* ReturnModeView.swift in Sources */,
 				9A59FE8352D36ACB81BF9A6A /* ReturnWindowCalculator.swift in Sources */,

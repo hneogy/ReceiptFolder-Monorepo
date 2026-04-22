@@ -29,6 +29,7 @@ struct ItemDetailView: View {
     @State private var calendarAddedWarranty = false
     @State private var returnAdvice: ReturnDecisionEngine.ReturnAdvice?
     @State private var hasPlayedUrgencyHaptic = false
+    @State private var showingReturnConfirmation = false
 
     private let returnModeTip = ReturnModeTip()
     private let calendarTip = CalendarTip()
@@ -130,17 +131,16 @@ struct ItemDetailView: View {
                     if item.isReturnWindowOpen {
                         Button("Mark as Returned", systemImage: "arrow.uturn.left") {
                             item.isReturned = true
+                            item.returnedAt = .now
                             NotificationScheduler.shared.cancelNotifications(for: item.id)
                             LiveActivityManager.shared.endLiveActivity(for: item.id)
                             WidgetSyncService.sync(modelContext: modelContext)
                             HapticsService.shared.playSuccess()
                             ReviewPromptService.recordMarkReturned()
-                            // Ask for a review at this natural pause — the user
-                            // just completed the full add → track → return loop.
-                            if ReviewPromptService.shouldAsk() {
-                                requestReview()
-                                ReviewPromptService.markPromptShown()
-                            }
+                            // Ask for proof-of-return before the review prompt.
+                            // The review prompt fires once the user dismisses
+                            // the confirmation sheet (handled in onDismiss below).
+                            showingReturnConfirmation = true
                         }
                     }
                     if item.isWarrantyActive {
@@ -187,6 +187,20 @@ struct ItemDetailView: View {
         }
         .sheet(isPresented: $showingMailComposer) {
             MailComposerView(item: item)
+        }
+        .sheet(
+            isPresented: $showingReturnConfirmation,
+            onDismiss: {
+                // Review prompt fires AFTER the proof-of-return flow so the
+                // confirmation sheet isn't interrupted by a system modal.
+                try? modelContext.save()
+                if ReviewPromptService.shouldAsk() {
+                    requestReview()
+                    ReviewPromptService.markPromptShown()
+                }
+            }
+        ) {
+            ReturnConfirmationView(item: item)
         }
         .onAppear {
             ReturnModeTip.hasViewedItem = true
@@ -340,7 +354,7 @@ struct ItemDetailView: View {
     }
 
     private var returnedStamp: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 14) {
             Text("RETURNED")
                 .font(.system(size: 48, weight: .regular, design: .serif))
                 .tracking(6)
@@ -352,15 +366,63 @@ struct ItemDetailView: View {
                 )
                 .rotationEffect(.degrees(-4))
 
-            Text("This receipt has been closed.")
-                .font(.system(size: 13, weight: .regular, design: .serif))
-                .italic()
-                .foregroundStyle(RFColors.mute)
+            if let returnedAt = item.returnedAt {
+                Text("Marked returned \(returnedAt.formatted(date: .long, time: .shortened))")
+                    .font(.system(size: 13, weight: .regular, design: .serif))
+                    .italic()
+                    .foregroundStyle(RFColors.mute)
+            } else {
+                Text("This receipt has been closed.")
+                    .font(.system(size: 13, weight: .regular, design: .serif))
+                    .italic()
+                    .foregroundStyle(RFColors.mute)
+            }
+
+            if let proofData = item.returnProofImageData,
+               let proofImage = UIImage(data: proofData) {
+                VStack(alignment: .leading, spacing: 10) {
+                    RFEyebrow(text: "Proof of return")
+                    Image(uiImage: proofImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 180)
+                        .frame(maxWidth: .infinity)
+                        .clipped()
+                        .overlay(Rectangle().stroke(RFColors.ink, lineWidth: 0.75))
+                        .accessibilityLabel("Proof of return photo")
+                }
+                .padding(.top, 8)
+            }
+
+            if !item.returnProofNote.isEmpty {
+                HStack(alignment: .top, spacing: 12) {
+                    Rectangle()
+                        .fill(RFColors.ink)
+                        .frame(width: 2)
+                    Text(item.returnProofNote)
+                        .font(.system(size: 14, weight: .regular, design: .serif))
+                        .italic()
+                        .foregroundStyle(RFColors.ink)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .lineSpacing(3)
+                }
+                .padding(.top, 4)
+            }
         }
         .frame(maxWidth: .infinity)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Returned. This receipt has been closed.")
+        .accessibilityLabel(returnedStampAccessibilityLabel)
         .accessibilityAddTraits(.isHeader)
+    }
+
+    private var returnedStampAccessibilityLabel: String {
+        var parts = ["Returned"]
+        if let returnedAt = item.returnedAt {
+            parts.append("on \(returnedAt.formatted(date: .long, time: .shortened))")
+        }
+        if item.returnProofImageData != nil { parts.append("with photo proof") }
+        if !item.returnProofNote.isEmpty { parts.append("with note: \(item.returnProofNote)") }
+        return parts.joined(separator: ", ")
     }
 
     // MARK: - Metadata Table

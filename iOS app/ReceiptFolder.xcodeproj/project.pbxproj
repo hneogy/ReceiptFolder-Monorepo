@@ -17,6 +17,7 @@
 		19E84238951A81DA81F74B70 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C6AD1282689DA81557765 /* WidgetDataProvider.swift */; };
 		1ABAB1D636FC2E5ED1D3B077 /* CalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9FE09D973F0D674822B92 /* CalendarService.swift */; };
 		1BA2CFF2BE146E9066F608FE /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C6AD1282689DA81557765 /* WidgetDataProvider.swift */; };
+		1F5CE0A8A9162989C9F6F622 /* FamilySharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1251F9BDE741A7CD890A33F4 /* FamilySharingService.swift */; };
 		218EDFD12C740FB47905741C /* BackgroundTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25624647B113CD35FEA5008F /* BackgroundTaskManager.swift */; };
 		242AF6481B2554D565CC8981 /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289FB463F7FC0FC1A79A4296 /* TranslationService.swift */; };
 		295D0ACD3D02E80A1737A206 /* WidgetColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45421DF9C747791B3E5185CF /* WidgetColors.swift */; };
@@ -80,6 +81,7 @@
 		C3BF4C7A33700EDCB0BE66BF /* SpotlightIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832697221112E4FF66B2D122 /* SpotlightIndexer.swift */; };
 		C5AD70354FDE8A845A464454 /* DataDetectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE65744B23A34E76EF7ADF8 /* DataDetectionService.swift */; };
 		CA62A2E9D16F571FCE37F927 /* ReceiptFolderWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9337E2C08544A018529AC5E8 /* ReceiptFolderWidgetBundle.swift */; };
+		CC9B3F5DDFD557859F004670 /* FamilySharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA377DF92E3D21A778921DC5 /* FamilySharingView.swift */; };
 		D167168C28D629261431E3B4 /* ReceiptItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FCEC4A2AA12B7F62C19CB4 /* ReceiptItem.swift */; };
 		D20F3486FD98820C046BC66D /* EmailReceiptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B36E064B1E76C5BB091A0A /* EmailReceiptParser.swift */; };
 		D35718EBCB8CCF2D100C490E /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0C27A80B239FF5F8809DA9 /* NotificationScheduler.swift */; };
@@ -160,6 +162,7 @@
 		1140E2AC46B800C32DE802C8 /* ReceiptFolderMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReceiptFolderMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		119BD2B68937FE2EEB34EE0C /* ReceiptFolderUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ReceiptFolderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		120FFC71B72D707B4E231B17 /* ReturnDecisionEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnDecisionEngineTests.swift; sourceTree = "<group>"; };
+		1251F9BDE741A7CD890A33F4 /* FamilySharingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilySharingService.swift; sourceTree = "<group>"; };
 		14B36E064B1E76C5BB091A0A /* EmailReceiptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailReceiptParser.swift; sourceTree = "<group>"; };
 		15D76D55B8FC4B0407E2EC00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		165D8B2ADF8856BD6B45B906 /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
@@ -208,6 +211,7 @@
 		B2B571F3FA662B1229114815 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B47A05B20A0DC715042E20B2 /* HapticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsService.swift; sourceTree = "<group>"; };
 		B8922154D6E10249836975BF /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
+		BA377DF92E3D21A778921DC5 /* FamilySharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilySharingView.swift; sourceTree = "<group>"; };
 		BF9784BD44567CDB0C0EEACB /* ReceiptFolderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptFolderUITests.swift; sourceTree = "<group>"; };
 		BFE55C3CB5DA54DA46A9C07C /* VaultListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultListView.swift; sourceTree = "<group>"; };
 		C32B068C3800E3B68F27758D /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
@@ -454,6 +458,7 @@
 				C6E8665811506D490BF6B6FF /* CloudSyncService.swift */,
 				3CE65744B23A34E76EF7ADF8 /* DataDetectionService.swift */,
 				D9D4EE8CF3111708E160320E /* ExportService.swift */,
+				1251F9BDE741A7CD890A33F4 /* FamilySharingService.swift */,
 				B47A05B20A0DC715042E20B2 /* HapticsService.swift */,
 				FBBA985F31F1BAB891AFDD20 /* ImageCompressionService.swift */,
 				A1E100B48B24AF5DEF99BEFA /* ImageStorageService.swift */,
@@ -489,6 +494,7 @@
 			isa = PBXGroup;
 			children = (
 				3B172CDD701071E3D3A490C3 /* AddStorePolicyView.swift */,
+				BA377DF92E3D21A778921DC5 /* FamilySharingView.swift */,
 				0E214594683E6F436263C14A /* KnowledgeCenterView.swift */,
 				EBC65A17D71138E95621235E /* SettingsView.swift */,
 				5C48D27D23A3F93197E00926 /* StorePickerSheet.swift */,
@@ -693,6 +699,8 @@
 				2FAB4B5C1790DBC18AB5FF5A /* EmailReceiptParser.swift in Sources */,
 				50905A0C30013BFACC860054 /* ExpiringDashboardView.swift in Sources */,
 				EECE94444C0544B4DA5C8E4A /* ExportService.swift in Sources */,
+				1F5CE0A8A9162989C9F6F622 /* FamilySharingService.swift in Sources */,
+				CC9B3F5DDFD557859F004670 /* FamilySharingView.swift in Sources */,
 				4006F4C875DF7CD79463D1EE /* HapticsService.swift in Sources */,
 				FC8DE3D9B0CEC9D078E84DE2 /* ImageCompressionService.swift in Sources */,
 				F28DB4A3E4F4CC856DE5304A /* ImageStorageService.swift in Sources */,

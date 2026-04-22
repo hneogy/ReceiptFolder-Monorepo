@@ -1,5 +1,6 @@
 import UIKit
 import UserNotifications
+import CloudKit
 
 final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     func application(
@@ -42,6 +43,26 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
             NavigationState.shared.selectedTab = .vault
             if let id = itemUUID {
                 NavigationState.shared.pendingItemID = id
+            }
+        }
+    }
+
+    // MARK: - CloudKit share acceptance
+    //
+    // iOS calls this when the user taps a household-share URL and chooses
+    // "Accept" in the system sheet. We forward the metadata to
+    // FamilySharingService, which calls `CKContainer.accept(_:)` and refreshes
+    // its participant list.
+    func application(
+        _ application: UIApplication,
+        userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata
+    ) {
+        Task { @MainActor in
+            do {
+                try await FamilySharingService.shared.acceptInvite(metadata: cloudKitShareMetadata)
+                RFLogger.storage.info("Accepted household CKShare invite")
+            } catch {
+                RFLogger.storage.error("Failed to accept CKShare: \(error.localizedDescription)")
             }
         }
     }

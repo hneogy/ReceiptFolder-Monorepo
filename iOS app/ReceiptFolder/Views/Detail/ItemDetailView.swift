@@ -154,6 +154,20 @@ struct ItemDetailView: View {
                             HapticsService.shared.playSuccess()
                         }
                     }
+                    Button(
+                        item.sharedWithHousehold ? "Stop Sharing with Household" : "Share with Household",
+                        systemImage: item.sharedWithHousehold ? "person.2.slash" : "person.2"
+                    ) {
+                        item.sharedWithHousehold.toggle()
+                        try? modelContext.save()
+                        HapticsService.shared.playSuccess()
+                        Task { @MainActor in
+                            let service = FamilySharingService.shared
+                            if service.hasHousehold {
+                                await service.syncSharedItems([item])
+                            }
+                        }
+                    }
                     Button("Archive", systemImage: "archivebox") {
                         item.isArchived = true
                         NotificationScheduler.shared.cancelNotifications(for: item.id)

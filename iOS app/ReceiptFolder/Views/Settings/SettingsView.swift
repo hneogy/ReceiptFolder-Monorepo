@@ -554,6 +554,12 @@ struct SettingsView: View {
 
             RFHairline()
 
+            navLink(destination: AnyView(FamilySharingView()),
+                    label: "Family sharing",
+                    value: "Beta")
+
+            RFHairline()
+
             exportRow
         }
     }

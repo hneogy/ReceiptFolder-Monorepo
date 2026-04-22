@@ -44,6 +44,13 @@ final class ReceiptItem {
     var returnProofNote: String = ""
     var returnedAt: Date?
 
+    // MARK: - Household sharing (W11)
+    // Per-item opt-in flag for the "share with household" flow. When true and
+    // the user has an active household CKShare, this record is mirrored into
+    // the shared zone so co-owners can see/act on it. Default is false —
+    // receipts are private unless the user explicitly opts in.
+    var sharedWithHousehold: Bool = false
+
     init(
         id: UUID = UUID(),
         productName: String,

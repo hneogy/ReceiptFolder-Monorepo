@@ -204,6 +204,22 @@ private struct ReleaseItem: Identifiable {
 private extension ChangelogView {
     static let releases: [Release] = [
         Release(
+            id: "1.4.0",
+            version: "1.4.0",
+            codename: "Household, out of beta.",
+            volume: "I, No. 6",
+            dateline: "May 2026",
+            lede: "A two-week sprint took household sharing from a scaffolded invite flow to a real, live-syncing second vault. Shared items now appear in both devices' vaults, changes mirror within seconds, and photos travel with them.",
+            items: [
+                ReleaseItem(tag: .new, title: "Shared items in the vault", detail: "A \"Household\" section at the bottom of the vault shows receipts your co-owner has shared with you. Same on iPhone, iPad, and Mac."),
+                ReleaseItem(tag: .new, title: "Live sync via CloudKit push", detail: "Silent pushes from both the private and shared CloudKit databases mean a change on one device lands on the other within seconds — no refresh button needed."),
+                ReleaseItem(tag: .improved, title: "Photos mirror too", detail: "Receipt and item images now travel with shared records as CKAssets. Your co-owner sees what you see."),
+                ReleaseItem(tag: .improved, title: "Automatic sync on every edit", detail: "Toggle \"Share with household\" or edit a shared item; the mirror updates on save. No more manual Sync button."),
+                ReleaseItem(tag: .improved, title: "Cascade delete", detail: "Archive, un-share, or delete a receipt and its mirrored copy disappears from the household zone too."),
+                ReleaseItem(tag: .polish, title: "Beta label retired", detail: "Family sharing is now a first-class feature."),
+            ]
+        ),
+        Release(
             id: "1.3.0",
             version: "1.3.0",
             codename: "The quarter's work.",

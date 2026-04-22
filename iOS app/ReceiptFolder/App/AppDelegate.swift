@@ -8,6 +8,10 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         UNUserNotificationCenter.current().delegate = self
+        // Register for silent CloudKit pushes. Content-available pushes do
+        // not require explicit user permission — APNs delivers them to the
+        // app regardless of notification authorization status.
+        application.registerForRemoteNotifications()
         return true
     }
 
@@ -60,10 +64,36 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
         Task { @MainActor in
             do {
                 try await FamilySharingService.shared.acceptInvite(metadata: cloudKitShareMetadata)
+                await HouseholdStore.shared.refresh()
                 RFLogger.storage.info("Accepted household CKShare invite")
             } catch {
                 RFLogger.storage.error("Failed to accept CKShare: \(error.localizedDescription)")
             }
+        }
+    }
+
+    // MARK: - CloudKit push notifications
+    //
+    // Silent pushes from our CKDatabaseSubscriptions. When a co-owner
+    // edits a record in the shared zone, CloudKit notifies us here, and
+    // we tell HouseholdStore to re-fetch. The user sees the vault refresh
+    // in the background without tapping anything.
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
+        guard let notification = CKNotification(fromRemoteNotificationDictionary: userInfo) else {
+            completionHandler(.noData)
+            return
+        }
+        guard notification.notificationType == .database else {
+            completionHandler(.noData)
+            return
+        }
+        Task { @MainActor in
+            await HouseholdStore.shared.handlePushedChange()
+            completionHandler(.newData)
         }
     }
 }

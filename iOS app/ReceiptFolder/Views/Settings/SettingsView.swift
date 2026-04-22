@@ -556,13 +556,13 @@ struct SettingsView: View {
 
             navLink(destination: AnyView(FamilySharingView()),
                     label: "Family sharing",
-                    value: "Beta")
+                    value: nil)
 
             RFHairline()
 
             navLink(destination: AnyView(ChangelogView()),
                     label: "Release notes",
-                    value: "v1.3")
+                    value: "v1.4")
 
             RFHairline()
 

@@ -117,6 +117,10 @@ struct ReceiptFolderApp: App {
                 ReviewPromptService.recordFirstLaunchIfNeeded()
                 await CloudSyncService.shared.checkAccountStatus()
                 await migrateImagesToModelData()
+                if CloudSyncService.shared.iCloudAvailable {
+                    await HouseholdStore.shared.registerSubscriptionsIfNeeded()
+                    await HouseholdStore.shared.refresh()
+                }
             }
         }
         .modelContainer(modelContainer)

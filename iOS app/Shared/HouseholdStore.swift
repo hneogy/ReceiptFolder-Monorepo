@@ -109,6 +109,63 @@ final class HouseholdStore {
 
     private init() {}
 
+    // MARK: - Push subscriptions
+    //
+    // Silent CKDatabaseSubscriptions on both the private and shared
+    // databases mean CloudKit pushes a notification whenever *any* record
+    // in either database changes. We register once per install (keyed in
+    // UserDefaults) and refresh the store when the push lands.
+
+    private enum SubscriptionKey {
+        static let registered = "householdSubscriptionsRegistered.v2"
+        static let privateID = "rf-household-private"
+        static let sharedID = "rf-household-shared"
+    }
+
+    /// Registers silent database subscriptions for both the private and
+    /// shared CloudKit databases. Idempotent — a completed registration is
+    /// cached in UserDefaults so we don't hit the CloudKit API on every
+    /// launch. Call once during app foreground after account status is
+    /// known.
+    func registerSubscriptionsIfNeeded() async {
+        let defaults = UserDefaults.standard
+        guard !defaults.bool(forKey: SubscriptionKey.registered) else { return }
+
+        do {
+            try await registerDatabaseSubscription(
+                on: container.privateCloudDatabase,
+                id: SubscriptionKey.privateID
+            )
+            try await registerDatabaseSubscription(
+                on: container.sharedCloudDatabase,
+                id: SubscriptionKey.sharedID
+            )
+            defaults.set(true, forKey: SubscriptionKey.registered)
+        } catch {
+            householdLog.error("Subscription registration failed: \(error.localizedDescription)")
+        }
+    }
+
+    private func registerDatabaseSubscription(on db: CKDatabase, id: String) async throws {
+        let subscription = CKDatabaseSubscription(subscriptionID: id)
+        let notificationInfo = CKSubscription.NotificationInfo()
+        notificationInfo.shouldSendContentAvailable = true   // silent push
+        subscription.notificationInfo = notificationInfo
+
+        do {
+            _ = try await db.save(subscription)
+        } catch let error as CKError where error.code == .serverRejectedRequest {
+            // Already exists — fine.
+        }
+    }
+
+    /// Called from the app's remote-notification handler when a CloudKit
+    /// subscription fires. Triggers a full refresh; the records array
+    /// recomputes with fresh data from both databases.
+    func handlePushedChange() async {
+        await refresh()
+    }
+
     // MARK: - Refresh
 
     /// Full re-read from both DBs. Cheap in practice — the query is scoped
@@ -157,19 +214,36 @@ final class HouseholdStore {
     /// Flip `isReturned` on a household record and push the change back to
     /// the right database. Routes by `origin` — owner writes go to the
     /// private DB, participant writes go to the shared DB.
+    ///
+    /// Conflict policy: `.changedKeys` ensures we only overwrite the two
+    /// fields we touch (isReturned, returnedAt). If the server record has
+    /// been changed out from under us in another key, we leave those
+    /// untouched. On the rare `.serverRecordChanged` (e.g. a concurrent
+    /// mark-returned from another device with the same keys), we retry
+    /// once by re-fetching and re-applying our change on top.
     func markReturned(_ id: String, returned: Bool = true) async throws {
         guard let rec = records.first(where: { $0.id == id }) else { return }
         let db = (rec.origin == .owned) ? container.privateCloudDatabase : container.sharedCloudDatabase
         let recordID = CKRecord.ID(recordName: rec.id, zoneID: rec.zoneID)
 
-        let ck = try await db.record(for: recordID)
-        ck["isReturned"] = (returned ? 1 : 0) as NSNumber
-        ck["returnedAt"] = (returned ? Date() : nil) as NSDate?
+        func attempt() async throws {
+            let ck = try await db.record(for: recordID)
+            ck["isReturned"] = (returned ? 1 : 0) as NSNumber
+            ck["returnedAt"] = (returned ? Date() : nil) as NSDate?
+            _ = try await db.modifyRecords(
+                saving: [ck], deleting: [], savePolicy: .changedKeys
+            )
+        }
 
-        _ = try await db.modifyRecords(
-            saving: [ck], deleting: [],
-            savePolicy: .changedKeys  // last-writer-wins on just the fields we touched
-        )
+        do {
+            try await attempt()
+        } catch let error as CKError where error.code == .serverRecordChanged {
+            // Another device touched the same keys between our fetch and
+            // save. Re-fetch and try once more — if it fails again we bail
+            // and let the caller surface the error.
+            householdLog.info("markReturned: serverRecordChanged, retrying once")
+            try await attempt()
+        }
         await refresh()
     }
 

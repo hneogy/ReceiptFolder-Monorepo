@@ -103,10 +103,12 @@ struct FamilySharingView: View {
                     .tracking(1.8)
                     .foregroundStyle(RFColors.mute)
                 Spacer()
-                Text("BETA")
-                    .font(RFFont.mono(10))
-                    .tracking(1.4)
-                    .foregroundStyle(RFColors.ember)
+                if service.hasHousehold {
+                    Text(service.isOwner ? "OWNER" : "MEMBER")
+                        .font(RFFont.mono(10))
+                        .tracking(1.4)
+                        .foregroundStyle(RFColors.signal)
+                }
             }
             Rectangle().fill(RFColors.ink).frame(height: 2)
 
@@ -191,11 +193,14 @@ struct FamilySharingView: View {
             explainerRow(number: "01", title: "Opt in per receipt",
                          body: "No receipt is shared by default. Each has its own toggle.")
             RFHairline()
-            explainerRow(number: "02", title: "One invite, forever",
-                         body: "Send the invite once. Anyone who accepts joins your household.")
+            explainerRow(number: "02", title: "Shared items appear in both vaults",
+                         body: "A new \"Household\" section in your co-owner's vault shows what you've shared — their receipts show up in yours.")
             RFHairline()
-            explainerRow(number: "03", title: "Private by iCloud",
-                         body: "Sharing runs over your CloudKit container. We never see your data.")
+            explainerRow(number: "03", title: "Changes sync live",
+                         body: "Edits, returns, and photos mirror across devices within seconds via silent CloudKit pushes.")
+            RFHairline()
+            explainerRow(number: "04", title: "Private by iCloud",
+                         body: "The whole flow runs over your own CloudKit container. We never see your data.")
         }
     }
 
@@ -297,7 +302,7 @@ struct FamilySharingView: View {
             }
             .padding(.vertical, 4)
 
-            Text("Each receipt has its own \"Share with household\" toggle in its detail view. Toggle the ones you want everyone to see.")
+            Text("Each receipt has its own \"Share with household\" toggle in its detail view. Toggle the ones you want everyone to see — changes sync automatically.")
                 .font(.system(size: 13, weight: .regular, design: .serif))
                 .italic()
                 .foregroundStyle(RFColors.mute)
@@ -318,14 +323,14 @@ struct FamilySharingView: View {
                             Image(systemName: "arrow.triangle.2.circlepath")
                                 .font(.system(size: 14))
                         }
-                        Text(syncingItems ? "Syncing…" : "Sync now")
+                        Text(syncingItems ? "Forcing resync…" : "Force resync")
                             .font(.system(size: 14, weight: .regular, design: .serif))
                         Spacer()
                     }
                     .padding(.vertical, 8)
                 }
                 .buttonStyle(.plain)
-                .foregroundStyle(RFColors.ink)
+                .foregroundStyle(RFColors.mute)
                 .disabled(syncingItems)
             }
         }

@@ -1,5 +1,6 @@
 import WidgetKit
 import SwiftUI
+import AppIntents
 
 struct TopExpiringEntry: TimelineEntry {
     let date: Date
@@ -91,6 +92,18 @@ struct TopExpiringWidgetView: View {
             Text(daysText(item))
                 .font(.caption.weight(.bold))
                 .foregroundStyle(urgencyColor(item))
+
+            // Interactive mark-returned: a compact circular button so the
+            // row stays tidy on both systemSmall and systemMedium widgets.
+            if let uuid = UUID(uuidString: item.id) {
+                Button(intent: MarkReturnedIntent(itemID: uuid)) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.body)
+                        .foregroundStyle(WidgetPalette.ink)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Mark \(item.productName) returned")
+            }
         }
     }
 

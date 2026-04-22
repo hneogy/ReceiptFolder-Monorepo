@@ -124,6 +124,10 @@ struct ReceiptFolderApp: App {
                         _ = await BiometricAuthService.shared.authenticate()
                         // Cleanup orphaned Live Activities
                         await cleanupOrphanedActivities()
+                        // Sync side effects for items marked returned from a widget —
+                        // the widget's MarkReturnedIntent can't touch notifications,
+                        // Live Activities, or Spotlight (they need the app process).
+                        syncReturnedItemSideEffects()
                         // Refresh iCloud status
                         await CloudSyncService.shared.checkAccountStatus()
                     }
@@ -160,6 +164,26 @@ extension ReceiptFolderApp {
         guard let items = try? context.fetch(descriptor) else { return }
         let activeIDs = Set(items.map { $0.id.uuidString })
         await LiveActivityManager.shared.cleanupOrphanedActivities(activeItemIDs: activeIDs)
+    }
+
+    /// Idempotent cleanup for items that were marked returned outside the app —
+    /// e.g., via the widget's `MarkReturnedIntent`. Cancels any stale scheduled
+    /// notifications, ends lingering Live Activities, removes Spotlight entries.
+    /// Safe to call on every app foreground: it's a no-op when there's nothing
+    /// to reconcile.
+    @MainActor
+    private func syncReturnedItemSideEffects() {
+        let context = ModelContext(modelContainer)
+        let descriptor = FetchDescriptor<ReceiptItem>(
+            predicate: #Predicate<ReceiptItem> { $0.isReturned }
+        )
+        guard let returnedItems = try? context.fetch(descriptor) else { return }
+        for item in returnedItems {
+            NotificationScheduler.shared.cancelNotifications(for: item.id)
+            LiveActivityManager.shared.endLiveActivity(for: item.id)
+            // Returned items stay in the Spotlight index intentionally — users
+            // may still want to find them by name. Don't remove here.
+        }
     }
 
     /// One-time migration: moves encrypted file-based images into SwiftData model data

@@ -1,5 +1,6 @@
 import WidgetKit
 import SwiftUI
+import AppIntents
 
 struct NextExpiringEntry: TimelineEntry {
     let date: Date
@@ -112,6 +113,24 @@ struct NextExpiringWidgetView: View {
             Text(item.storeName)
                 .font(.caption)
                 .foregroundStyle(.secondary)
+
+            // Interactive: tap to mark this item returned. Runs MarkReturnedIntent
+            // in the widget extension process — no app launch required.
+            if let uuid = UUID(uuidString: item.id) {
+                Button(intent: MarkReturnedIntent(itemID: uuid)) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "checkmark")
+                            .font(.caption2.weight(.semibold))
+                        Text("Mark returned")
+                            .font(.caption2.weight(.semibold))
+                    }
+                    .padding(.vertical, 5)
+                    .frame(maxWidth: .infinity)
+                    .background(WidgetPalette.ink)
+                    .foregroundStyle(WidgetPalette.paper)
+                }
+                .buttonStyle(.plain)
+            }
         }
         .padding()
     }

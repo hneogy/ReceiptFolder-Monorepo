@@ -7,9 +7,10 @@ final class CloudSyncService {
     static let shared = CloudSyncService()
 
     /// Shared CloudKit container identifier — read by everything that
-    /// constructs a ModelContainer or CKContainer for this app. `nonisolated`
-    /// so non-MainActor callers (e.g. BackgroundTaskManager) can read it.
-    nonisolated static let containerID = "iCloud.com.receiptfolder.app"
+    /// constructs a ModelContainer or CKContainer for this app. Sourced from
+    /// `AppGroupConstants` so the widget and intent targets share the same
+    /// value without having to link against this service.
+    nonisolated static let containerID = AppGroupConstants.cloudKitContainerID
 
     private(set) var accountStatus: CKAccountStatus = .couldNotDetermine
     private(set) var lastChecked: Date?

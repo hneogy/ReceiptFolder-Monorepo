@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — Receipt Folder</title>
+  <meta name="description" content="Answers to common questions about Receipt Folder — how scanning works, what's stored, privacy, and more.">
+  <meta name="theme-color" content="#F5F1E8">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/logo@2x.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand">
+        <img src="assets/logo.png" alt="" aria-hidden="true">
+        <span>Receipt<em>Folder</em></span>
+      </a>
+      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <div class="nav__links" id="navLinks">
+        <a href="index.html">Overview</a>
+        <a href="faq.html">FAQ</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <a href="index.html#download" class="nav__cta">Get the app</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="container masthead">
+      <div class="masthead__meta">
+        <span class="eyebrow">Reference Desk</span>
+        <span class="eyebrow">Questions · Answers</span>
+      </div>
+      <hr class="rule">
+      <h1 class="masthead__title">Questions <em>&amp; answers.</em></h1>
+      <p class="masthead__dek">Everything worth asking before you file your first receipt.</p>
+      <hr class="hairline" style="margin-top: var(--s-5);">
+    </section>
+
+    <section class="container section" style="padding-top: 0;">
+      <div class="faq">
+
+        <details class="faq__item reveal" open>
+          <summary class="faq__btn">
+            <span>Does Receipt Folder require an account?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>No. There's no sign-up, no email, no password. Open the app and start using it. If you want your receipts to sync between your iPhone and iPad, the app uses your existing iCloud account — the same one your phone is already signed into — with no extra registration.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>Where is my data stored?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>On your device. Receipts and photos live in a SwiftData database local to your iPhone. If you've enabled iCloud, the app syncs through your private CloudKit database — meaning only your own Apple ID can read it. We don't run any servers, don't collect analytics, and don't contract with third parties.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>How does the scan work?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>Apple's Vision framework runs on-device text recognition on the receipt photo. The app looks for a store name, a date, and a total, then matches the store against a bundled database of 100+ return policies. The photo and its extracted text never leave your phone.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>What if the scan gets something wrong?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>The review step after scanning is fully editable. If the date is off by a year or the total was read as $1,234.56 instead of $12.34, you can correct any field before saving. If no store policy matches, you can set the return-window length manually.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>Can I use it without taking a photo?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>Yes. Every add flow has an "Enter by hand" option. Useful for digital receipts, gift receipts, or when you just want to log a purchase without the camera.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>What retailers are supported?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>Around 100 major retailers ship with the app — Amazon, Best Buy, Target, Costco, Nordstrom, Apple, IKEA, and more. Each includes return-window length, category exceptions (electronics vs. clothing), and a "what to bring" checklist. You can also add your own custom policy for any local or niche retailer.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>When do I get notifications?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>For return windows: 14 days, 7 days, 72 hours, 24 hours, and the morning of your deadline. For warranties: 90, 30, and 7 days before expiry. You can set the time of day in Settings, and toggle either category off entirely.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>Does it work offline?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>Completely. The only thing the app ever sends over the network is CloudKit sync, which is optional. Scanning, reminders, search, widgets — all of it runs offline.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>Is there a subscription?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>No. The app is a one-time free download. No tiers, no in-app purchases, no trials.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>How do widgets work?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>Two widgets ship with the app: a small Home Screen widget listing your most urgent items, and a Lock Screen widget showing the single next-expiring deadline. Both refresh when you add, archive, or return an item — and every six hours otherwise via BGAppRefreshTask.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>Can I export my data?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>Yes. Settings → Export data lets you save everything as CSV (for spreadsheets) or JSON (full fidelity). Useful for tax time, expense reports, or just a backup.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>What happens to Live Activities?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>When an item is within 3 days of its return deadline, Receipt Folder can show a countdown on your Lock Screen and Dynamic Island. It ends automatically when the item is returned, archived, or the deadline passes. Live Activities never leave your device.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>Is Siri supported?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>Three shortcuts ship by default: "Show expiring items," "Add a receipt," and "Check return window for [product name]." All run through App Intents so they work from the Lock Screen, Spotlight, and the Shortcuts app.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary class="faq__btn">
+            <span>I found a bug. Where do I report it?</span>
+            <span class="faq__indicator">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>Head to the <a href="contact.html" style="text-decoration: underline; color: var(--signal);">contact page</a> or email <a href="mailto:honorius@neogy.dev" style="text-decoration: underline;">honorius@neogy.dev</a>. Include your iPhone model and iOS version if possible. Bug reports are read by a human, not a support bot.</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__grid">
+      <div class="footer__col">
+        <div class="footer__brand">Receipt<em>Folder</em></div>
+        <p class="footer__tag">An almanac of returns &amp; warranties. Filed quietly, nothing shared.</p>
+      </div>
+      <div class="footer__col"><h4>Product</h4><ul><li><a href="index.html">Overview</a></li><li><a href="faq.html">FAQ</a></li><li><a href="index.html#download">Download</a></li></ul></div>
+      <div class="footer__col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+      <div class="footer__col"><h4>Desk</h4><ul><li><a href="contact.html">Contact</a></li><li><a href="mailto:honorius@neogy.dev">honorius@neogy.dev</a></li></ul></div>
+    </div>
+    <div class="footer__end">
+      <span>© 2026 Honorius M. Neogy</span>
+      <span>Set in New York &amp; SF Mono</span>
+    </div>
+  </footer>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>

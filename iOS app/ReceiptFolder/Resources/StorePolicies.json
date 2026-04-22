@@ -1,0 +1,1339 @@
+{
+  "stores": [
+    {
+      "id": "best-buy",
+      "name": "Best Buy",
+      "aliases": ["BEST BUY", "BestBuy", "BEST BUY CO", "BESTBUY.COM"],
+      "defaultReturnDays": 15,
+      "categoryOverrides": [
+        { "category": "My Best Buy Total members", "returnDays": 30, "note": "Totaltech / Total members get extended window" },
+        { "category": "Activatable devices", "returnDays": 14, "note": "Cell phones, cellular tablets, smartwatches" },
+        { "category": "Opened software/movies", "returnDays": 0, "exchangeOnly": true, "note": "Exchange for same title only" },
+        { "category": "Major appliances", "returnDays": 15, "note": "Must be in original condition" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Bring original receipt and all box contents. Opened headphones accepted for return or exchange.",
+      "returnRequirements": ["Original receipt or packing slip", "Original packaging", "All accessories and manuals"]
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "aliases": ["AMAZON.COM", "AMZN", "AMAZON MARKETPLACE", "AMAZON.COM SERVICES"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Amazon Fresh / Pantry", "returnDays": 7, "note": "Perishable and grocery items" },
+        { "category": "Kindle books / digital", "returnDays": 7, "note": "Digital content return window" },
+        { "category": "Apple products via Amazon", "returnDays": 30, "note": "Same as standard return window" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Most items can be returned within 30 days of delivery in original condition.",
+      "returnRequirements": ["Order confirmation or tracking number", "Original condition and packaging"]
+    },
+    {
+      "id": "target",
+      "name": "Target",
+      "aliases": ["TARGET", "TARGET STORE", "TARGET.COM", "SUPER TARGET"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Electronics / entertainment", "returnDays": 30, "note": "Electronics, video games, movies, music" },
+        { "category": "Apple / prepaid phones", "returnDays": 15, "note": "Apple products and prepaid phones" },
+        { "category": "Target Circle card holders", "returnDays": 120, "note": "Extra 30 days with Target Circle Card" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Most unopened items in new condition within 90 days. Target-owned brands get 1 year.",
+      "returnRequirements": ["Receipt, Target app barcode, or packing slip", "Valid photo ID for no-receipt returns"]
+    },
+    {
+      "id": "walmart",
+      "name": "Walmart",
+      "aliases": ["WALMART", "WAL-MART", "WALMART.COM", "WAL MART", "WALMART SUPERCENTER"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Electronics", "returnDays": 30, "note": "Computers, cameras, GPS units, etc." },
+        { "category": "Wireless phones", "returnDays": 14, "note": "Postpaid and prepaid wireless phones" },
+        { "category": "Major appliances", "returnDays": 2, "note": "Must report damage within 2 days of delivery" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Items must be in original packaging with all accessories. Some items require receipt.",
+      "returnRequirements": ["Receipt or Walmart app purchase history", "Original packaging", "Valid photo ID"]
+    },
+    {
+      "id": "costco",
+      "name": "Costco",
+      "aliases": ["COSTCO", "COSTCO WHOLESALE", "COSTCO.COM"],
+      "defaultReturnDays": -1,
+      "categoryOverrides": [
+        { "category": "Electronics / TVs", "returnDays": 90, "note": "TVs, computers, cameras, tablets, smartwatches" },
+        { "category": "Diamonds over 1 carat", "returnDays": 2, "note": "48-hour inspection period required" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "100% satisfaction guarantee on most items. Electronics have 90-day window.",
+      "returnRequirements": ["Membership card", "Item to return"]
+    },
+    {
+      "id": "apple-store",
+      "name": "Apple Store",
+      "aliases": ["APPLE STORE", "APPLE", "APPLE.COM", "APPLE INC"],
+      "defaultReturnDays": 14,
+      "categoryOverrides": [
+        { "category": "Opened software", "returnDays": 0, "exchangeOnly": false, "note": "Non-returnable once opened" },
+        { "category": "AppleCare+", "returnDays": 14, "note": "Can cancel within 14 days" },
+        { "category": "Customized Mac", "returnDays": 14, "note": "Custom-configured Macs" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Products must be in original condition with all accessories. Personalized items may not be returned.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging", "All accessories"]
+    },
+    {
+      "id": "home-depot",
+      "name": "Home Depot",
+      "aliases": ["HOME DEPOT", "THE HOME DEPOT", "HOMEDEPOT.COM"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Major appliances", "returnDays": 48, "note": "48-hour return on appliance delivery" },
+        { "category": "Furniture / area rugs", "returnDays": 30, "note": "Furniture and area rugs" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items can be returned within 90 days of purchase. Pro Xtra members get 365 days on select items.",
+      "returnRequirements": ["Receipt or order confirmation", "Valid photo ID"]
+    },
+    {
+      "id": "lowes",
+      "name": "Lowe's",
+      "aliases": ["LOWES", "LOWE'S", "LOWES.COM"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Major appliances", "returnDays": 48, "note": "48 hours for appliance delivery" },
+        { "category": "Outdoor power equipment", "returnDays": 30, "note": "Gas-powered equipment" },
+        { "category": "Holiday items", "returnDays": 30, "note": "Seasonal and holiday merchandise" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most new, unused items can be returned within 90 days. MyLowe's members get extended returns.",
+      "returnRequirements": ["Receipt, MyLowe's account, or credit card used", "Valid photo ID"]
+    },
+    {
+      "id": "nordstrom",
+      "name": "Nordstrom",
+      "aliases": ["NORDSTROM", "NORDSTROM.COM", "NORDSTROM RACK"],
+      "defaultReturnDays": -1,
+      "categoryOverrides": [
+        { "category": "Nordstrom Rack items", "returnDays": 45, "note": "Rack purchases have a 45-day window" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "No time limit on most returns. Items should be in sellable condition. Handled on a case-by-case basis.",
+      "returnRequirements": ["Receipt or order number preferred", "Original tags if possible"]
+    },
+    {
+      "id": "macys",
+      "name": "Macy's",
+      "aliases": ["MACYS", "MACY'S", "MACYS.COM"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Last Act items", "returnDays": 30, "note": "Final sale clearance items" },
+        { "category": "Apple products", "returnDays": 14, "note": "Apple electronics" },
+        { "category": "Rugs / furniture", "returnDays": 30, "note": "Area rugs and furniture" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items returnable within 90 days with receipt. Without receipt, store credit at lowest selling price.",
+      "returnRequirements": ["Receipt or shipping confirmation", "Original tags preferred"]
+    },
+    {
+      "id": "williams-sonoma",
+      "name": "Williams Sonoma",
+      "aliases": ["WILLIAMS SONOMA", "WILLIAMS-SONOMA", "WILLIAMS SONOMA INC"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Monogrammed items", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Electrics / cutlery", "returnDays": 90, "note": "Standard return window" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "90-day return policy. Items must be in original condition.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging"]
+    },
+    {
+      "id": "rei",
+      "name": "REI",
+      "aliases": ["REI", "REI CO-OP", "REI.COM"],
+      "defaultReturnDays": 365,
+      "categoryOverrides": [
+        { "category": "Outdoor electronics", "returnDays": 90, "note": "GPS, fitness monitors, cameras" },
+        { "category": "Final sale items", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Members get 1-year return window on most items. Must be in clean, functional condition.",
+      "returnRequirements": ["Membership number or receipt", "Item in usable condition"]
+    },
+    {
+      "id": "nike",
+      "name": "Nike",
+      "aliases": ["NIKE", "NIKE.COM", "NIKE STORE", "NIKE FACTORY"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Nike By You / custom", "returnDays": 30, "note": "Custom-made items" },
+        { "category": "Nike Refurbished", "returnDays": 60, "note": "Same as standard" }
+      ],
+      "defaultWarrantyYears": 2,
+      "returnConditions": "Unworn items within 60 days. Nike members can return worn items within 60 days.",
+      "returnRequirements": ["Receipt or order confirmation", "Original condition preferred"]
+    },
+    {
+      "id": "sephora",
+      "name": "Sephora",
+      "aliases": ["SEPHORA", "SEPHORA.COM", "SEPHORA USA"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Gently used products", "returnDays": 30, "note": "Can return lightly used products" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "New or gently used products within 30 days for full refund. 31-60 days for store credit.",
+      "returnRequirements": ["Receipt or Beauty Insider account", "Original packaging preferred"]
+    },
+    {
+      "id": "ulta",
+      "name": "Ulta",
+      "aliases": ["ULTA", "ULTA BEAUTY", "ULTA.COM"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Prestige brands", "returnDays": 60, "note": "Must be in sellable condition" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items returnable within 60 days with receipt for full refund.",
+      "returnRequirements": ["Receipt or Ultamate Rewards account", "Original packaging"]
+    },
+    {
+      "id": "staples",
+      "name": "Staples",
+      "aliases": ["STAPLES", "STAPLES.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Technology items", "returnDays": 14, "note": "Computers, tablets, printers" },
+        { "category": "Furniture", "returnDays": 30, "note": "Office furniture" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items returnable within 30 days. Technology items have a 14-day window.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging", "All accessories"]
+    },
+    {
+      "id": "office-depot",
+      "name": "Office Depot",
+      "aliases": ["OFFICE DEPOT", "OFFICEDEPOT", "OFFICE MAX", "OFFICEMAX"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Technology", "returnDays": 14, "note": "Computers, printers, electronics" },
+        { "category": "Ink / toner", "returnDays": 30, "note": "Unopened ink and toner" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days with receipt. Technology items 14 days.",
+      "returnRequirements": ["Receipt or packing slip", "Original packaging"]
+    },
+    {
+      "id": "ikea",
+      "name": "IKEA",
+      "aliases": ["IKEA", "IKEA.COM", "IKEA US"],
+      "defaultReturnDays": 365,
+      "categoryOverrides": [
+        { "category": "Opened mattresses", "returnDays": 365, "note": "365-night trial on mattresses" },
+        { "category": "Cut fabric / custom countertops", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "As-is items", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unused, in original packaging within 365 days with receipt for full refund. Without receipt, store credit.",
+      "returnRequirements": ["Receipt or IKEA Family account", "Original packaging", "Disassembled if applicable"]
+    },
+    {
+      "id": "trader-joes",
+      "name": "Trader Joe's",
+      "aliases": ["TRADER JOE'S", "TRADER JOES", "TJ'S"],
+      "defaultReturnDays": -1,
+      "categoryOverrides": [],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "No questions asked return policy. Can return any product you're not satisfied with.",
+      "returnRequirements": ["Receipt preferred but not required", "Product or packaging"]
+    },
+    {
+      "id": "whole-foods",
+      "name": "Whole Foods",
+      "aliases": ["WHOLE FOODS", "WHOLE FOODS MARKET", "WFM"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Full refund within 90 days with receipt. Products must be in resellable condition.",
+      "returnRequirements": ["Receipt or Amazon account if Prime member"]
+    },
+    {
+      "id": "kroger",
+      "name": "Kroger",
+      "aliases": ["KROGER", "KROGER CO", "FRED MEYER", "RALPH'S", "RALPHS", "KING SOOPERS"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days with receipt. Perishables can be returned immediately.",
+      "returnRequirements": ["Receipt or Kroger Plus card"]
+    },
+    {
+      "id": "walgreens",
+      "name": "Walgreens",
+      "aliases": ["WALGREENS", "WALGREENS.COM", "WAG"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Photo products", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Pharmacy / health", "returnDays": 0, "note": "Non-returnable for safety" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days with receipt. Some items non-returnable.",
+      "returnRequirements": ["Receipt", "Unopened and in original packaging"]
+    },
+    {
+      "id": "cvs",
+      "name": "CVS",
+      "aliases": ["CVS", "CVS PHARMACY", "CVS.COM", "CVS HEALTH"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Pharmacy items", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Opened beauty", "returnDays": 60, "note": "Can return opened beauty products" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 60 days with receipt. ExtraCare members can look up receipts.",
+      "returnRequirements": ["Receipt or ExtraCare card", "Valid photo ID for no-receipt returns"]
+    },
+    {
+      "id": "sams-club",
+      "name": "Sam's Club",
+      "aliases": ["SAMS CLUB", "SAM'S CLUB", "SAMSCLUB.COM"],
+      "defaultReturnDays": -1,
+      "categoryOverrides": [
+        { "category": "Electronics", "returnDays": 90, "note": "TVs, computers, phones, tablets" },
+        { "category": "Heavy / large items", "returnDays": -1, "note": "Satisfaction guarantee" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "100% satisfaction guarantee. Electronics have 90-day window.",
+      "returnRequirements": ["Membership card", "Item and receipt preferred"]
+    },
+    {
+      "id": "bjs",
+      "name": "BJ's",
+      "aliases": ["BJS", "BJ'S", "BJ'S WHOLESALE", "BJS WHOLESALE"],
+      "defaultReturnDays": -1,
+      "categoryOverrides": [
+        { "category": "Electronics", "returnDays": 90, "note": "Computers, TVs, tablets" },
+        { "category": "Mattresses", "returnDays": 365, "note": "1-year comfort guarantee" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "General merchandise has no time limit. Electronics have 90-day window.",
+      "returnRequirements": ["Membership card", "Receipt preferred"]
+    },
+    {
+      "id": "michaels",
+      "name": "Michaels",
+      "aliases": ["MICHAELS", "MICHAELS.COM", "MICHAELS STORES"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Cricut machines", "returnDays": 14, "note": "Electronic cutting machines" },
+        { "category": "Custom framing", "returnDays": 14, "note": "Custom frame orders" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 60 days with receipt. Without receipt, exchange or store credit at current price.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging for electronics"]
+    },
+    {
+      "id": "hobby-lobby",
+      "name": "Hobby Lobby",
+      "aliases": ["HOBBY LOBBY", "HOBBYLOBBY.COM"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 90 days with receipt for refund or exchange.",
+      "returnRequirements": ["Receipt required for refund", "Original packaging"]
+    },
+    {
+      "id": "pottery-barn",
+      "name": "Pottery Barn",
+      "aliases": ["POTTERY BARN", "POTTERYBARN.COM", "POTTERY BARN KIDS"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Monogrammed items", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Furniture", "returnDays": 30, "note": "Must be in original condition" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Within 30 days of delivery with receipt for full refund. Furniture must be unused.",
+      "returnRequirements": ["Receipt or order confirmation", "Original condition"]
+    },
+    {
+      "id": "crate-and-barrel",
+      "name": "Crate & Barrel",
+      "aliases": ["CRATE AND BARREL", "CRATE & BARREL", "CRATEANDBARREL.COM", "CB2"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Furniture", "returnDays": 30, "note": "Upholstered and large furniture" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 90 days with receipt. Furniture within 30 days.",
+      "returnRequirements": ["Receipt or order number", "Original packaging preferred"]
+    },
+    {
+      "id": "west-elm",
+      "name": "West Elm",
+      "aliases": ["WEST ELM", "WESTELM.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Monogrammed items", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Within 30 days of delivery for most items. Must be in original condition.",
+      "returnRequirements": ["Receipt or order number", "Original packaging"]
+    },
+    {
+      "id": "anthropologie",
+      "name": "Anthropologie",
+      "aliases": ["ANTHROPOLOGIE", "ANTHROPOLOGIE.COM"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Furniture", "returnDays": 30, "note": "Large furniture items" },
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 60 days for refund. After 60 days, exchange or store credit for 30 more days.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags"]
+    },
+    {
+      "id": "urban-outfitters",
+      "name": "Urban Outfitters",
+      "aliases": ["URBAN OUTFITTERS", "URBANOUTFITTERS.COM", "UO"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Electronics / vinyl", "returnDays": 30, "note": "Must be unopened" },
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Within 30 days with receipt and tags attached for full refund.",
+      "returnRequirements": ["Receipt", "Original tags attached", "Unworn condition"]
+    },
+    {
+      "id": "gap",
+      "name": "Gap",
+      "aliases": ["GAP", "GAP.COM", "GAP INC", "GAP FACTORY"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Gap Factory items", "returnDays": 30, "note": "Must return to Gap Factory stores" },
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn, unwashed items within 30 days with receipt for full refund.",
+      "returnRequirements": ["Receipt or packing slip", "Original tags", "Unworn condition"]
+    },
+    {
+      "id": "old-navy",
+      "name": "Old Navy",
+      "aliases": ["OLD NAVY", "OLDNAVY.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn, unwashed items within 30 days with receipt.",
+      "returnRequirements": ["Receipt or packing slip", "Original tags"]
+    },
+    {
+      "id": "banana-republic",
+      "name": "Banana Republic",
+      "aliases": ["BANANA REPUBLIC", "BANANAREPUBLIC.COM", "BR"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn, unwashed items within 30 days with receipt for full refund.",
+      "returnRequirements": ["Receipt or packing slip", "Original tags"]
+    },
+    {
+      "id": "zara",
+      "name": "Zara",
+      "aliases": ["ZARA", "ZARA.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Online purchases", "returnDays": 30, "note": "From delivery date" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Within 30 days of purchase with tags and receipt. Must be unworn and in original condition.",
+      "returnRequirements": ["Receipt or e-receipt", "Original tags attached", "Original packaging"]
+    },
+    {
+      "id": "hm",
+      "name": "H&M",
+      "aliases": ["H&M", "HM", "H AND M", "HM.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "H&M Home", "returnDays": 30, "note": "Home items" },
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn items with tags within 30 days with receipt. H&M members get 60 days.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags", "Unworn condition"]
+    },
+    {
+      "id": "uniqlo",
+      "name": "Uniqlo",
+      "aliases": ["UNIQLO", "UNIQLO.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Altered items", "returnDays": 0, "note": "Non-returnable once altered" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn, unwashed items with tags within 30 days of purchase.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags", "Original packaging"]
+    },
+    {
+      "id": "kohls",
+      "name": "Kohl's",
+      "aliases": ["KOHLS", "KOHL'S", "KOHLS.COM"],
+      "defaultReturnDays": 180,
+      "categoryOverrides": [
+        { "category": "Premium electronics", "returnDays": 30, "note": "Electronics and smart home devices" },
+        { "category": "Beauty", "returnDays": 60, "note": "Prestige beauty items" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 180 days with receipt. Premium electronics within 30 days.",
+      "returnRequirements": ["Receipt, Kohl's account, or original payment method", "Valid photo ID"]
+    },
+    {
+      "id": "jcpenney",
+      "name": "JCPenney",
+      "aliases": ["JCPENNEY", "JC PENNEY", "JCPENNEY.COM", "J.C. PENNEY"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Electronics", "returnDays": 30, "note": "Electronics and small appliances" },
+        { "category": "Fine jewelry", "returnDays": 60, "note": "Must have receipt" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 60 days with receipt. Without receipt, exchange or store credit.",
+      "returnRequirements": ["Receipt or order confirmation", "Valid photo ID for no-receipt returns"]
+    },
+    {
+      "id": "dicks-sporting-goods",
+      "name": "Dick's Sporting Goods",
+      "aliases": ["DICKS SPORTING GOODS", "DICK'S SPORTING GOODS", "DICKS.COM", "DSG"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Electronics / GPS", "returnDays": 30, "note": "Electronics and GPS devices" },
+        { "category": "Bikes", "returnDays": 90, "note": "Must be in rideable condition" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 90 days with receipt. Some exclusions apply.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging preferred"]
+    },
+    {
+      "id": "academy-sports",
+      "name": "Academy Sports",
+      "aliases": ["ACADEMY SPORTS", "ACADEMY SPORTS + OUTDOORS", "ACADEMY.COM"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Firearms", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Ammunition", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 60 days with receipt in original packaging.",
+      "returnRequirements": ["Receipt", "Original packaging", "Valid photo ID"]
+    },
+    {
+      "id": "petsmart",
+      "name": "PetSmart",
+      "aliases": ["PETSMART", "PETSMART.COM"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 60 days with receipt. Opened items accepted.",
+      "returnRequirements": ["Receipt or PetSmart Treats account", "Valid photo ID"]
+    },
+    {
+      "id": "petco",
+      "name": "Petco",
+      "aliases": ["PETCO", "PETCO.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days with receipt for full refund.",
+      "returnRequirements": ["Receipt or Pals Rewards account", "Original packaging"]
+    },
+    {
+      "id": "gamestop",
+      "name": "GameStop",
+      "aliases": ["GAMESTOP", "GAMESTOP.COM", "GAME STOP"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "New hardware", "returnDays": 30, "note": "Consoles and accessories" },
+        { "category": "New software", "returnDays": 30, "note": "Unopened games only" },
+        { "category": "Pre-owned", "returnDays": 7, "note": "Pre-owned games and accessories" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "New items within 30 days unopened. Pre-owned within 7 days. Defective items exchanged.",
+      "returnRequirements": ["Receipt", "Original packaging for new items"]
+    },
+    {
+      "id": "newegg",
+      "name": "Newegg",
+      "aliases": ["NEWEGG", "NEWEGG.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Desktop PCs / laptops", "returnDays": 30, "note": "Must include all original items" },
+        { "category": "Monitors 30\"+", "returnDays": 30, "note": "Must be in original packaging" },
+        { "category": "Non-returnable items", "returnDays": 0, "note": "Some items marked non-returnable" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Most items within 30 days with RMA number. Must be in original packaging.",
+      "returnRequirements": ["RMA number required", "Original packaging", "All accessories"]
+    },
+    {
+      "id": "bh-photo",
+      "name": "B&H Photo",
+      "aliases": ["B&H PHOTO", "B&H", "BH PHOTO", "BHPHOTOVIDEO.COM", "B AND H"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Computers / tablets", "returnDays": 30, "note": "Must be in original condition" },
+        { "category": "Opened software", "returnDays": 0, "note": "Non-returnable once opened" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Most items within 30 days in original condition with all packaging.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging", "All accessories and manuals"]
+    },
+    {
+      "id": "micro-center",
+      "name": "Micro Center",
+      "aliases": ["MICRO CENTER", "MICROCENTER", "MICROCENTER.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "CPUs / motherboards", "returnDays": 15, "note": "Processors and motherboards" },
+        { "category": "Opened software", "returnDays": 0, "exchangeOnly": true, "note": "Exchange for same title only" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Most items within 30 days with receipt. CPUs and motherboards within 15 days.",
+      "returnRequirements": ["Receipt required", "Original packaging", "All accessories"]
+    },
+    {
+      "id": "wayfair",
+      "name": "Wayfair",
+      "aliases": ["WAYFAIR", "WAYFAIR.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Large items / furniture", "returnDays": 30, "note": "Must be unassembled and unused" },
+        { "category": "Clearance items", "returnDays": 30, "note": "Final sale items may not be returnable" },
+        { "category": "Gift cards", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days of delivery. Must be unassembled and in original packaging.",
+      "returnRequirements": ["Order number", "Items unassembled and in original packaging"]
+    },
+    {
+      "id": "bed-bath-beyond",
+      "name": "Bed Bath & Beyond",
+      "aliases": ["BED BATH AND BEYOND", "BED BATH & BEYOND", "BEDBATHANDBEYOND.COM", "BBB"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Electronics", "returnDays": 30, "note": "Small electronics and appliances" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 90 days with receipt. Now operated by Overstock.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging preferred"]
+    },
+    {
+      "id": "lululemon",
+      "name": "Lululemon",
+      "aliases": ["LULULEMON", "LULULEMON ATHLETICA", "LULULEMON.COM", "LULU LEMON"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "We Made Too Much items", "returnDays": 0, "note": "Final sale, non-returnable" },
+        { "category": "Like New items", "returnDays": 30, "note": "Resale program items" },
+        { "category": "Footwear", "returnDays": 30, "note": "Unworn with original packaging" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn, unwashed items with original tags within 30 days. Quality Promise covers defects beyond 30 days — bring the item in-store for assessment.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags attached", "Unworn and unwashed condition"]
+    },
+    {
+      "id": "tj-maxx",
+      "name": "TJ Maxx",
+      "aliases": ["TJ MAXX", "TJMAXX", "T.J. MAXX", "TJMAXX.COM", "TJ MAX"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Swimwear / intimate apparel", "returnDays": 30, "note": "Must have tags and liners attached" },
+        { "category": "Opened electronics / software", "returnDays": 0, "exchangeOnly": true, "note": "Exchange for same item only" },
+        { "category": "Long lost receipt returns", "returnDays": 30, "note": "Store credit at lowest marked price without receipt" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days with receipt for full refund to original payment. Without receipt, merchandise credit at current selling price. Items must be in saleable condition with tags.",
+      "returnRequirements": ["Receipt or shipping confirmation", "Original tags attached", "Valid photo ID for no-receipt returns"]
+    },
+    {
+      "id": "marshalls",
+      "name": "Marshalls",
+      "aliases": ["MARSHALLS", "MARSHALL'S", "MARSHALLS.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Swimwear / intimate apparel", "returnDays": 30, "note": "Must have tags and liners attached" },
+        { "category": "Opened electronics", "returnDays": 0, "exchangeOnly": true, "note": "Exchange for same item only" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days with receipt for full refund. Without receipt, store credit at current price. Same return policy as TJ Maxx (TJX Companies).",
+      "returnRequirements": ["Receipt or shipping confirmation", "Original tags attached", "Valid photo ID for no-receipt returns"]
+    },
+    {
+      "id": "north-face",
+      "name": "The North Face",
+      "aliases": ["THE NORTH FACE", "NORTH FACE", "TNF", "THENORTHFACE.COM"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Renewed items", "returnDays": 30, "note": "TNF Renewed program items" },
+        { "category": "Custom / personalized", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn, unwashed items within 60 days for full refund. The North Face Lifetime Warranty covers manufacturing defects for the lifetime of the product — bring item to any TNF store or contact support.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags preferred", "Unworn and unwashed"]
+    },
+    {
+      "id": "homegoods",
+      "name": "HomeGoods",
+      "aliases": ["HOMEGOODS", "HOME GOODS", "HOMEGOODS.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Opened electronics", "returnDays": 0, "exchangeOnly": true, "note": "Exchange only" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days with receipt. Same TJX Companies policy as TJ Maxx and Marshalls.",
+      "returnRequirements": ["Receipt", "Original tags attached", "Valid photo ID for no-receipt returns"]
+    },
+    {
+      "id": "sierra",
+      "name": "Sierra",
+      "aliases": ["SIERRA", "SIERRA TRADING POST", "SIERRA.COM"],
+      "defaultReturnDays": 40,
+      "categoryOverrides": [],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 40 days with receipt for full refund. TJX Companies brand.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags attached", "Unworn condition"]
+    },
+    {
+      "id": "adidas",
+      "name": "Adidas",
+      "aliases": ["ADIDAS", "ADIDAS.COM", "ADIDAS STORE", "ADIDAS OUTLET"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Hype / limited releases", "returnDays": 0, "note": "Final sale, non-returnable" },
+        { "category": "Customized (mi adidas)", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Face covers", "returnDays": 0, "note": "Non-returnable for hygiene" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn items in original packaging within 30 days for full refund. Adiclub members may get extended windows during promotions.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging", "Unworn with tags"]
+    },
+    {
+      "id": "under-armour",
+      "name": "Under Armour",
+      "aliases": ["UNDER ARMOUR", "UNDERARMOUR.COM", "UA", "UNDER ARMOR"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Final sale items", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Unworn, unwashed items within 60 days for full refund. UA also has a 1-year limited warranty against manufacturing defects.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags", "Unworn and unwashed"]
+    },
+    {
+      "id": "patagonia",
+      "name": "Patagonia",
+      "aliases": ["PATAGONIA", "PATAGONIA.COM"],
+      "defaultReturnDays": -1,
+      "categoryOverrides": [
+        { "category": "Worn Wear / used items", "returnDays": 30, "note": "Worn Wear program items" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Ironclad Guarantee — return for any reason at any time. Products that don't perform to your satisfaction can be repaired, replaced, or refunded.",
+      "returnRequirements": ["Receipt preferred but not required", "Item in any condition"]
+    },
+    {
+      "id": "columbia",
+      "name": "Columbia Sportswear",
+      "aliases": ["COLUMBIA", "COLUMBIA SPORTSWEAR", "COLUMBIA.COM"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Outlet purchases", "returnDays": 30, "note": "Columbia outlet store items" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn items within 60 days for full refund. Columbia also offers a limited lifetime warranty on manufacturing defects.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags preferred", "Unworn condition"]
+    },
+    {
+      "id": "new-balance",
+      "name": "New Balance",
+      "aliases": ["NEW BALANCE", "NEWBALANCE.COM", "NB"],
+      "defaultReturnDays": 45,
+      "categoryOverrides": [
+        { "category": "Custom shoes (NB1)", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn items in original packaging within 45 days for full refund.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging", "Unworn with tags"]
+    },
+    {
+      "id": "foot-locker",
+      "name": "Foot Locker",
+      "aliases": ["FOOT LOCKER", "FOOTLOCKER", "FOOTLOCKER.COM", "KIDS FOOT LOCKER"],
+      "defaultReturnDays": 45,
+      "categoryOverrides": [
+        { "category": "Launch / limited release", "returnDays": 7, "note": "Limited release sneakers" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn items within 45 days with receipt. FLX members get 60 days.",
+      "returnRequirements": ["Receipt or order confirmation", "Original box", "Unworn condition"]
+    },
+    {
+      "id": "bath-body-works",
+      "name": "Bath & Body Works",
+      "aliases": ["BATH AND BODY WORKS", "BATH & BODY WORKS", "BATHANDBODYWORKS.COM", "BBW"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "New or gently used items within 90 days with receipt for full refund. Without receipt, exchange at current price.",
+      "returnRequirements": ["Receipt preferred", "Gently used condition acceptable"]
+    },
+    {
+      "id": "victoria-secret",
+      "name": "Victoria's Secret",
+      "aliases": ["VICTORIAS SECRET", "VICTORIA'S SECRET", "VS", "VICTORIASSECRET.COM"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Final sale items", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Swimwear / lingerie", "returnDays": 90, "note": "Must have tags and hygienic liner" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn items with tags and receipt within 90 days for full refund.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags", "Hygienic liners intact"]
+    },
+    {
+      "id": "american-eagle",
+      "name": "American Eagle",
+      "aliases": ["AMERICAN EAGLE", "AE", "AMERICAN EAGLE OUTFITTERS", "AEO", "AE.COM", "AERIE"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Aerie items", "returnDays": 60, "note": "Same policy as AE" },
+        { "category": "Clearance / final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn items within 60 days with receipt for full refund. Without receipt, exchange or merchandise credit.",
+      "returnRequirements": ["Receipt or AEO Connected account", "Original tags preferred"]
+    },
+    {
+      "id": "abercrombie",
+      "name": "Abercrombie & Fitch",
+      "aliases": ["ABERCROMBIE", "ABERCROMBIE AND FITCH", "A&F", "ABERCROMBIE.COM", "HOLLISTER"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Hollister items", "returnDays": 30, "note": "Same policy" },
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn, unwashed items with original tags within 30 days for full refund.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags attached", "Unworn condition"]
+    },
+    {
+      "id": "express",
+      "name": "Express",
+      "aliases": ["EXPRESS", "EXPRESS.COM", "EXPRESS FACTORY"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Clearance items", "returnDays": 30, "exchangeOnly": true, "note": "Exchange or store credit only" },
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn items with tags within 30 days with receipt for refund to original payment.",
+      "returnRequirements": ["Receipt or packing slip", "Original tags attached", "Unworn condition"]
+    },
+    {
+      "id": "forever-21",
+      "name": "Forever 21",
+      "aliases": ["FOREVER 21", "FOREVER21", "FOREVER21.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Swimwear / lingerie / bodysuits", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Accessories (hats, hair, sunglasses)", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Sale items", "returnDays": 0, "exchangeOnly": true, "note": "Exchange or store credit only" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn, unwashed items with original tags within 30 days for store credit. No cash or card refunds — store credit or exchange only.",
+      "returnRequirements": ["Receipt required", "Original tags attached", "Unworn and unwashed"]
+    },
+    {
+      "id": "nordstrom-rack",
+      "name": "Nordstrom Rack",
+      "aliases": ["NORDSTROM RACK", "NORDSTROMRACK.COM", "RACK"],
+      "defaultReturnDays": 45,
+      "categoryOverrides": [
+        { "category": "Clear the Rack items", "returnDays": 0, "note": "Final sale, non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 45 days with receipt. Cannot return Rack items to Nordstrom full-line stores.",
+      "returnRequirements": ["Receipt or Nordstrom account", "Original tags preferred"]
+    },
+    {
+      "id": "ross",
+      "name": "Ross Dress for Less",
+      "aliases": ["ROSS", "ROSS DRESS FOR LESS", "ROSS STORES"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Swimwear / intimate apparel", "returnDays": 30, "note": "Must have tags and liners" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days with receipt for refund. Without receipt, exchange or store credit.",
+      "returnRequirements": ["Receipt", "Original tags attached", "Valid photo ID for no-receipt returns"]
+    },
+    {
+      "id": "burlington",
+      "name": "Burlington",
+      "aliases": ["BURLINGTON", "BURLINGTON COAT FACTORY", "BURLINGTON STORES"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Coats over $150", "returnDays": 30, "note": "Must have tags attached" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days with receipt for refund. After 30 days, exchange or store credit.",
+      "returnRequirements": ["Receipt", "Original tags attached", "Valid photo ID"]
+    },
+    {
+      "id": "five-below",
+      "name": "Five Below",
+      "aliases": ["FIVE BELOW", "FIVEBELOW", "FIVEBELOW.COM", "5 BELOW"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Electronics", "returnDays": 30, "note": "Must be unopened for refund; exchange if opened" },
+        { "category": "Gift cards", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days with receipt. Without receipt, exchange only.",
+      "returnRequirements": ["Receipt", "Original packaging preferred"]
+    },
+    {
+      "id": "dollar-tree",
+      "name": "Dollar Tree",
+      "aliases": ["DOLLAR TREE", "DOLLARTREE", "DOLLARTREE.COM", "FAMILY DOLLAR"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "In-store purchases exchangeable within 30 days with receipt.",
+      "returnRequirements": ["Receipt required", "Original packaging"]
+    },
+    {
+      "id": "costco-online",
+      "name": "Costco Online",
+      "aliases": ["COSTCO.COM ONLINE", "COSTCO DELIVERY"],
+      "defaultReturnDays": -1,
+      "categoryOverrides": [
+        { "category": "Electronics", "returnDays": 90, "note": "TVs, computers, cameras" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Same satisfaction guarantee as in-store. Initiate return online or in any warehouse.",
+      "returnRequirements": ["Order number or membership card"]
+    },
+    {
+      "id": "tiffany",
+      "name": "Tiffany & Co.",
+      "aliases": ["TIFFANY", "TIFFANY AND CO", "TIFFANY & CO", "TIFFANY.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Engraved / personalized", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Fragrances", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unused, undamaged items in original condition within 30 days. Engravings and personalizations are final sale.",
+      "returnRequirements": ["Receipt or gift receipt", "Original packaging and Tiffany Blue Box", "Unused condition"]
+    },
+    {
+      "id": "coach",
+      "name": "Coach",
+      "aliases": ["COACH", "COACH.COM", "COACH OUTLET"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Coach Outlet items", "returnDays": 30, "note": "Must return to Coach Outlet stores" },
+        { "category": "Final sale / customized", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Unused items within 30 days for full refund. Coach offers a 1-year warranty on craftsmanship defects.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags", "Unused condition"]
+    },
+    {
+      "id": "kate-spade",
+      "name": "Kate Spade",
+      "aliases": ["KATE SPADE", "KATESPADE.COM", "KATE SPADE NEW YORK", "KATE SPADE OUTLET"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Outlet items", "returnDays": 30, "note": "Must return to Kate Spade Outlet" },
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Unused items within 30 days for full refund. 1-year warranty on material and craftsmanship defects.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags and packaging"]
+    },
+    {
+      "id": "michael-kors",
+      "name": "Michael Kors",
+      "aliases": ["MICHAEL KORS", "MICHAELKORS.COM", "MK", "MICHAEL KORS OUTLET"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Outlet items", "returnDays": 30, "note": "Return to MK Outlet only" },
+        { "category": "Final sale / personalized", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Unused items with tags within 30 days. 1-year warranty on material and workmanship defects.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags and packaging", "Unused condition"]
+    },
+    {
+      "id": "gucci",
+      "name": "Gucci",
+      "aliases": ["GUCCI", "GUCCI.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Personalized / DIY items", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Beauty / fragrances", "returnDays": 30, "note": "Must be sealed and unused" }
+      ],
+      "defaultWarrantyYears": 2,
+      "returnConditions": "Unused items in original condition within 30 days of delivery. 2-year warranty on most products.",
+      "returnRequirements": ["Receipt or order confirmation", "All original packaging and tags", "Unused condition"]
+    },
+    {
+      "id": "louis-vuitton",
+      "name": "Louis Vuitton",
+      "aliases": ["LOUIS VUITTON", "LV", "LOUISVUITTON.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Personalized / hot-stamped", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Fragrances / candles", "returnDays": 30, "note": "Must be sealed" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unused items in original condition within 30 days of purchase for full refund. Must include all packaging.",
+      "returnRequirements": ["Receipt", "All original packaging, boxes, dust bags", "Unused and undamaged condition"]
+    },
+    {
+      "id": "brooks-brothers",
+      "name": "Brooks Brothers",
+      "aliases": ["BROOKS BROTHERS", "BROOKSBROTHERS.COM"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Made-to-measure", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Final sale / clearance", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn items with tags within 60 days for refund. Without receipt, store credit.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags", "Unworn condition"]
+    },
+    {
+      "id": "ll-bean",
+      "name": "L.L.Bean",
+      "aliases": ["LL BEAN", "L.L. BEAN", "LLBEAN", "LLBEAN.COM"],
+      "defaultReturnDays": 365,
+      "categoryOverrides": [
+        { "category": "Outdoor Discovery items", "returnDays": 365, "note": "Kayaks, SUPs, etc." }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Most items returnable within 1 year for any reason. Defective products covered beyond 1 year under warranty.",
+      "returnRequirements": ["Receipt or order number preferred", "Item in reasonable condition"]
+    },
+    {
+      "id": "eddie-bauer",
+      "name": "Eddie Bauer",
+      "aliases": ["EDDIE BAUER", "EDDIEBAUER.COM"],
+      "defaultReturnDays": 365,
+      "categoryOverrides": [
+        { "category": "Clearance items", "returnDays": 60, "note": "Clearance items within 60 days" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Most items returnable within 1 year. Unconditional lifetime guarantee on defects.",
+      "returnRequirements": ["Receipt or order number preferred", "Item in any condition for defect claims"]
+    },
+    {
+      "id": "tommy-hilfiger",
+      "name": "Tommy Hilfiger",
+      "aliases": ["TOMMY HILFIGER", "TOMMY.COM", "TOMMY"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn items with tags within 30 days. Tommy Hilfiger outlet returns must go to outlet stores.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags attached"]
+    },
+    {
+      "id": "calvin-klein",
+      "name": "Calvin Klein",
+      "aliases": ["CALVIN KLEIN", "CK", "CALVINKLEIN.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Underwear / swimwear", "returnDays": 30, "note": "Must have hygiene tags intact" },
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn items with original tags within 30 days for full refund.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags", "Unworn condition"]
+    },
+    {
+      "id": "ralph-lauren",
+      "name": "Ralph Lauren",
+      "aliases": ["RALPH LAUREN", "POLO RALPH LAUREN", "RALPHLAUREN.COM", "POLO"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Monogrammed / customized", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unused items with tags within 30 days for refund. Factory store items must be returned to factory stores.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags and packaging"]
+    },
+    {
+      "id": "vineyard-vines",
+      "name": "Vineyard Vines",
+      "aliases": ["VINEYARD VINES", "VINEYARDVINES.COM"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn, unwashed items with tags within 90 days for full refund.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags"]
+    },
+    {
+      "id": "j-crew",
+      "name": "J.Crew",
+      "aliases": ["J CREW", "JCREW", "J.CREW", "JCREW.COM", "J.CREW FACTORY"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "J.Crew Factory items", "returnDays": 30, "note": "Return to Factory stores or by mail" },
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Swimwear", "returnDays": 30, "note": "Must have hygienic liner attached" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn, unwashed items within 30 days with proof of purchase. J.Crew Factory and J.Crew returns are handled separately.",
+      "returnRequirements": ["Receipt or packing slip", "Original tags", "Unworn and unwashed"]
+    },
+    {
+      "id": "free-people",
+      "name": "Free People",
+      "aliases": ["FREE PEOPLE", "FREEPEOPLE.COM", "FP"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Intimates / swimwear", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Final sale", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unworn items with tags within 30 days for refund. After 30 days, exchange or store credit for 30 more days.",
+      "returnRequirements": ["Receipt or order confirmation", "Original tags", "Unworn condition"]
+    },
+    {
+      "id": "allbirds",
+      "name": "Allbirds",
+      "aliases": ["ALLBIRDS", "ALLBIRDS.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Worn shoes", "returnDays": 30, "note": "30-day try-on: can return even if worn" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "30-day comfort guarantee — try them and return even if worn. Must contact support for worn returns.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging preferred"]
+    },
+    {
+      "id": "warby-parker",
+      "name": "Warby Parker",
+      "aliases": ["WARBY PARKER", "WARBYPARKER.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Prescription lenses", "returnDays": 30, "note": "Full refund including lenses" },
+        { "category": "Home Try-On", "returnDays": 5, "note": "5-day try-on period, return prepaid" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "30-day hassle-free return on all eyewear including prescription. 1-year warranty on frames.",
+      "returnRequirements": ["Receipt or order confirmation", "Original case and accessories"]
+    },
+    {
+      "id": "samsung",
+      "name": "Samsung",
+      "aliases": ["SAMSUNG", "SAMSUNG.COM", "SAMSUNG STORE"],
+      "defaultReturnDays": 15,
+      "categoryOverrides": [
+        { "category": "TVs / monitors", "returnDays": 15, "note": "Must be in original packaging" },
+        { "category": "Wearables", "returnDays": 15, "note": "Galaxy Watch, Buds, etc." },
+        { "category": "Custom / personalized", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Items in new condition within 15 days of delivery. 1-year manufacturer warranty.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging and all accessories"]
+    },
+    {
+      "id": "sony",
+      "name": "Sony",
+      "aliases": ["SONY", "SONY STORE", "SONY.COM", "PLAYSTATION DIRECT"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Opened software / games", "returnDays": 0, "note": "Non-returnable once opened" },
+        { "category": "PlayStation Direct", "returnDays": 30, "note": "Consoles and accessories" }
+      ],
+      "defaultWarrantyYears": 1,
+      "returnConditions": "Unopened items within 30 days. 1-year limited manufacturer warranty.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging", "All accessories"]
+    },
+    {
+      "id": "dyson",
+      "name": "Dyson",
+      "aliases": ["DYSON", "DYSON.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Refurbished items", "returnDays": 30, "note": "Same return window" }
+      ],
+      "defaultWarrantyYears": 2,
+      "returnConditions": "Any item purchased from Dyson.com can be returned within 30 days. 2-year manufacturer warranty on most products.",
+      "returnRequirements": ["Receipt or order confirmation", "All parts and accessories"]
+    },
+    {
+      "id": "restoration-hardware",
+      "name": "Restoration Hardware",
+      "aliases": ["RESTORATION HARDWARE", "RH", "RH.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Custom upholstery", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Final sale / clearance", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Non-custom items within 30 days of delivery for full refund. Rugs have 30-day return window.",
+      "returnRequirements": ["Receipt or order confirmation", "Original condition and packaging"]
+    },
+    {
+      "id": "ace-hardware",
+      "name": "Ace Hardware",
+      "aliases": ["ACE HARDWARE", "ACE", "ACEHARDWARE.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Power tools", "returnDays": 30, "note": "Must be in original packaging" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days with receipt. Policies may vary by franchise location.",
+      "returnRequirements": ["Receipt", "Original packaging"]
+    },
+    {
+      "id": "menards",
+      "name": "Menards",
+      "aliases": ["MENARDS", "MENARDS.COM"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Special orders", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Electronics", "returnDays": 30, "note": "Electronics and small appliances" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 90 days with receipt. Store credit without receipt.",
+      "returnRequirements": ["Receipt or credit card lookup", "Original packaging preferred"]
+    },
+    {
+      "id": "tractor-supply",
+      "name": "Tractor Supply Co.",
+      "aliases": ["TRACTOR SUPPLY", "TRACTOR SUPPLY CO", "TSC", "TRACTORSUPPLY.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Firearms / ammunition", "returnDays": 0, "note": "Non-returnable" },
+        { "category": "Livestock feed / perishables", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 30 days with receipt for full refund. Neighbors Club members may get extended windows.",
+      "returnRequirements": ["Receipt or Neighbors Club account", "Original packaging"]
+    },
+    {
+      "id": "autozone",
+      "name": "AutoZone",
+      "aliases": ["AUTOZONE", "AUTO ZONE", "AUTOZONE.COM"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Electrical parts (installed)", "returnDays": 0, "note": "Non-returnable if installed" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 90 days with receipt. Some parts have extended warranty coverage.",
+      "returnRequirements": ["Receipt or AutoZone Rewards account", "Unused condition or defective for warranty"]
+    },
+    {
+      "id": "oreilly-auto",
+      "name": "O'Reilly Auto Parts",
+      "aliases": ["OREILLY", "O'REILLY", "O'REILLY AUTO PARTS", "OREILLYAUTO.COM"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Electrical parts (installed)", "returnDays": 0, "note": "Non-returnable once installed" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 90 days with receipt. Limited lifetime warranty on many parts.",
+      "returnRequirements": ["Receipt or O'Reilly account", "Unused condition"]
+    },
+    {
+      "id": "chewy",
+      "name": "Chewy",
+      "aliases": ["CHEWY", "CHEWY.COM"],
+      "defaultReturnDays": 365,
+      "categoryOverrides": [
+        { "category": "Prescription items", "returnDays": 0, "note": "Non-returnable for safety" },
+        { "category": "Personalized items", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 365 days for full refund. Chewy often tells you to keep or donate the item and issues a refund.",
+      "returnRequirements": ["Order number or Chewy account"]
+    },
+    {
+      "id": "publix",
+      "name": "Publix",
+      "aliases": ["PUBLIX", "PUBLIX SUPER MARKETS"],
+      "defaultReturnDays": -1,
+      "categoryOverrides": [],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Publix Guarantee — full refund or replacement on any item you're not satisfied with, no time limit.",
+      "returnRequirements": ["Receipt preferred but not required"]
+    },
+    {
+      "id": "aldi",
+      "name": "Aldi",
+      "aliases": ["ALDI", "ALDI.US", "ALDI STORES"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "ALDI Find items", "returnDays": 60, "note": "Limited stock items, same policy" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Twice As Nice Guarantee — return product and get a replacement AND a refund on ALDI-exclusive brands.",
+      "returnRequirements": ["Receipt", "Unused portion of the product"]
+    },
+    {
+      "id": "lego",
+      "name": "LEGO",
+      "aliases": ["LEGO", "LEGO STORE", "LEGO.COM"],
+      "defaultReturnDays": 90,
+      "categoryOverrides": [
+        { "category": "Opened sets", "returnDays": 90, "note": "Opened but complete sets can be returned" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "New or opened sets within 90 days for full refund. Missing pieces can be ordered free from LEGO.com.",
+      "returnRequirements": ["Receipt or order confirmation", "All pieces and packaging preferred"]
+    },
+    {
+      "id": "disney-store",
+      "name": "Disney Store",
+      "aliases": ["DISNEY STORE", "SHOPDISNEY", "SHOPDISNEY.COM"],
+      "defaultReturnDays": 30,
+      "categoryOverrides": [
+        { "category": "Personalized items", "returnDays": 0, "note": "Non-returnable" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Unused items within 30 days with receipt for full refund.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging", "Unused condition"]
+    },
+    {
+      "id": "container-store",
+      "name": "The Container Store",
+      "aliases": ["CONTAINER STORE", "THE CONTAINER STORE", "CONTAINERSTORE.COM"],
+      "defaultReturnDays": 60,
+      "categoryOverrides": [
+        { "category": "Elfa custom shelving", "returnDays": 60, "note": "Uninstalled Elfa only" },
+        { "category": "Custom closets (installed)", "returnDays": 0, "note": "Non-returnable once installed" }
+      ],
+      "defaultWarrantyYears": 0,
+      "returnConditions": "Most items within 60 days with receipt. Custom installed solutions are non-returnable.",
+      "returnRequirements": ["Receipt or order confirmation", "Original packaging preferred"]
+    }
+  ]
+}

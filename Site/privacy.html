@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy — Receipt Folder</title>
+  <meta name="description" content="How Receipt Folder handles your data. Short version: we don't. It stays on your device.">
+  <meta name="theme-color" content="#F5F1E8">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/logo@2x.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand">
+        <img src="assets/logo.png" alt="" aria-hidden="true">
+        <span>Receipt<em>Folder</em></span>
+      </a>
+      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <div class="nav__links" id="navLinks">
+        <a href="index.html">Overview</a>
+        <a href="faq.html">FAQ</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <a href="index.html#download" class="nav__cta">Get the app</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="container masthead">
+      <div class="masthead__meta">
+        <span class="eyebrow">Legal</span>
+        <span class="eyebrow">Last revised · April 2026</span>
+      </div>
+      <hr class="rule">
+      <h1 class="masthead__title">Privacy <em>policy.</em></h1>
+      <p class="masthead__dek">The short version: your data stays on your device. This page explains exactly what that means.</p>
+      <hr class="hairline" style="margin-top: var(--s-5);">
+    </section>
+
+    <!-- The promise, in one readable pull-quote -->
+    <section class="container section" style="padding-top: var(--s-6);">
+      <blockquote class="pullquote reveal">
+        We don't run a backend. We don't have a database of your receipts. We don't know
+        your name, your email, or what you bought. We can't — because none of it is
+        ever sent to us.
+        <cite>— The short version</cite>
+      </blockquote>
+    </section>
+
+    <section class="prose section" style="padding-top: 0;">
+      <div class="reveal">
+
+        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">I. What we collect</h3>
+        <p>Nothing. Receipt Folder does not have a server. There is no analytics SDK, no crash reporter, no advertising identifier, no third-party tag. The app is fully self-contained on your device.</p>
+
+        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">II. What's stored on your phone</h3>
+        <p>When you add a receipt, the app saves the following locally on your device (via Apple's SwiftData, which writes to a private app database):</p>
+        <ul style="font-family: var(--serif); font-size: 17px; line-height: 1.6; padding-left: 24px; color: var(--ink);">
+          <li>The product name, store, purchase date, and price you entered or scanned.</li>
+          <li>The receipt photo and an optional item photo.</li>
+          <li>The calculated return-window and warranty-expiry dates.</li>
+          <li>Any notes you add.</li>
+        </ul>
+
+        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">III. iCloud sync (optional)</h3>
+        <p>If you're signed into iCloud and have it enabled on your device, Receipt Folder uses a <strong>private CloudKit database</strong> — scoped to your Apple ID — to sync receipts between your iPhone and iPad. This is end-to-end between your own devices and Apple's servers; the developer has no access to it. If you disable iCloud or sign out, the app falls back to local-only storage automatically.</p>
+
+        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">IV. Photo scanning</h3>
+        <p>Receipt photos are processed by Apple's Vision framework on your device. No image or extracted text is sent to any server — not to us, not to Apple. On devices running iOS 26 or later, optional Foundation Models may be used for smarter receipt parsing; this also runs entirely on-device.</p>
+
+        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">V. Permissions</h3>
+        <p>We ask for only what a feature actively needs:</p>
+        <ul style="font-family: var(--serif); font-size: 17px; line-height: 1.6; padding-left: 24px; color: var(--ink);">
+          <li><strong>Camera</strong> — when you choose to scan a receipt or take an item photo.</li>
+          <li><strong>Photo Library</strong> — when you choose to import a photo.</li>
+          <li><strong>Notifications</strong> — to deliver the reminders you asked for.</li>
+          <li><strong>Face ID / Touch ID</strong> — only if you enable app lock.</li>
+          <li><strong>Calendar</strong> — only when you tap "Add to Calendar" on an item.</li>
+        </ul>
+        <p>Each permission can be revoked at any time in iOS Settings.</p>
+
+        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">VI. Third parties</h3>
+        <p>There are none. No ad networks. No analytics vendors. No crash reporting. The only external communication the app ever does is with Apple's iCloud on your behalf, and only if you've signed in.</p>
+
+        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">VII. Children</h3>
+        <p>The App is not directed at children under 13. We collect no personal information from anyone, which includes children.</p>
+
+        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">VIII. Your rights</h3>
+        <p>Because we don't hold your data, there's nothing for us to delete or export on your behalf. Your receipts are yours. To erase them, delete the app from your device — all local data is wiped. To export, use the app's built-in Export feature (Settings → Export data → CSV or JSON).</p>
+
+        <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute);">IX. Contact</h3>
+        <p>Privacy questions: <a href="mailto:honorius@neogy.dev" style="text-decoration: underline;">honorius@neogy.dev</a>. Real human, real reply.</p>
+
+        <hr class="perforation" style="margin: var(--s-7) 0;">
+        <p style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--mute); text-align: center;">— End of policy —</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__grid">
+      <div class="footer__col">
+        <div class="footer__brand">Receipt<em>Folder</em></div>
+        <p class="footer__tag">An almanac of returns &amp; warranties. Filed quietly, nothing shared.</p>
+      </div>
+      <div class="footer__col"><h4>Product</h4><ul><li><a href="index.html">Overview</a></li><li><a href="faq.html">FAQ</a></li><li><a href="index.html#download">Download</a></li></ul></div>
+      <div class="footer__col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+      <div class="footer__col"><h4>Desk</h4><ul><li><a href="contact.html">Contact</a></li><li><a href="mailto:honorius@neogy.dev">honorius@neogy.dev</a></li></ul></div>
+    </div>
+    <div class="footer__end">
+      <span>© 2026 Honorius M. Neogy</span>
+      <span>Set in New York &amp; SF Mono</span>
+    </div>
+  </footer>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>

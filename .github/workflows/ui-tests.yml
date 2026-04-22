@@ -1,0 +1,96 @@
+name: UI tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'iOS app/**'
+      - '.github/workflows/ui-tests.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'iOS app/**'
+      - '.github/workflows/ui-tests.yml'
+
+concurrency:
+  group: ui-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: iOS app
+
+jobs:
+  xcuitest:
+    name: XCUITest (iPhone simulator)
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show environment
+        run: |
+          sw_vers
+          xcodebuild -version
+          xcrun simctl list runtimes
+          xcrun simctl list devices available | grep -E "iPhone [0-9]+ Pro" | head -5
+
+      - name: Install XcodeGen
+        run: |
+          if ! command -v xcodegen >/dev/null 2>&1; then
+            brew install xcodegen
+          fi
+          xcodegen --version
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Select simulator
+        id: sim
+        run: |
+          DEVICE=$(xcrun simctl list devices available \
+            | grep -E "iPhone [0-9]+ Pro \(" \
+            | grep -v "Max\|Plus" \
+            | tail -1 \
+            | sed -E 's/^[[:space:]]+([^(]+)\(.*/\1/' \
+            | xargs)
+          if [ -z "$DEVICE" ]; then
+            DEVICE=$(xcrun simctl list devices available \
+              | grep -E "iPhone" \
+              | tail -1 \
+              | sed -E 's/^[[:space:]]+([^(]+)\(.*/\1/' \
+              | xargs)
+          fi
+          echo "Using simulator: $DEVICE"
+          echo "device=$DEVICE" >> "$GITHUB_OUTPUT"
+
+      - name: Build for testing
+        run: |
+          set -o pipefail
+          xcodebuild build-for-testing \
+            -scheme ReceiptFolder \
+            -destination "platform=iOS Simulator,name=${{ steps.sim.outputs.device }}" \
+            -enableCodeCoverage NO \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcbeautify || true
+
+      - name: Run UI tests
+        run: |
+          set -o pipefail
+          xcodebuild test-without-building \
+            -scheme ReceiptFolder \
+            -destination "platform=iOS Simulator,name=${{ steps.sim.outputs.device }}" \
+            -only-testing:ReceiptFolderUITests \
+            -resultBundlePath TestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcbeautify
+
+      - name: Upload xcresult bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcresult
+          path: iOS app/TestResults.xcresult
+          retention-days: 14

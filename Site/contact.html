@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Receipt Folder</title>
+  <meta name="description" content="Write to Receipt Folder. Real human, real reply.">
+  <meta name="theme-color" content="#F5F1E8">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/logo@2x.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand">
+        <img src="assets/logo.png" alt="" aria-hidden="true">
+        <span>Receipt<em>Folder</em></span>
+      </a>
+      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <div class="nav__links" id="navLinks">
+        <a href="index.html">Overview</a>
+        <a href="faq.html">FAQ</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <a href="index.html#download" class="nav__cta">Get the app</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="container masthead">
+      <div class="masthead__meta">
+        <span class="eyebrow">Correspondence Desk</span>
+        <span class="eyebrow" id="todaysDate"></span>
+      </div>
+      <hr class="rule">
+      <h1 class="masthead__title">Write <em>to us.</em></h1>
+      <p class="masthead__dek">Bug reports, feature requests, compliments, complaints — all read by the developer personally. Usually answered inside 48 hours.</p>
+      <hr class="hairline" style="margin-top: var(--s-5);">
+    </section>
+
+    <section class="container section" style="padding-top: 0;">
+      <div class="split">
+
+        <!-- Direct contact column -->
+        <div class="reveal">
+          <div class="eyebrow">By post</div>
+          <p style="margin-top: var(--s-3);">The quickest way to reach a real person is email. Clicks in any decent mail client.</p>
+          <a href="mailto:honorius@neogy.dev" style="display: inline-block; margin-top: var(--s-5); font-family: var(--serif); font-size: 28px; color: var(--signal); text-decoration: underline; text-underline-offset: 4px;">honorius@neogy.dev</a>
+
+          <hr class="hairline" style="margin: var(--s-6) 0;">
+
+          <div class="eyebrow">Please include</div>
+          <ul style="font-family: var(--serif); font-size: 16px; line-height: 1.65; padding-left: 20px; margin-top: var(--s-3); color: var(--ink);">
+            <li>Your iPhone model (Settings → General → About).</li>
+            <li>Your iOS version.</li>
+            <li>For bugs — what you tapped, what you expected, what happened.</li>
+            <li>A screenshot if the bug is visual.</li>
+          </ul>
+
+          <hr class="hairline" style="margin: var(--s-6) 0;">
+
+          <div class="eyebrow">Not via email</div>
+          <ul style="font-family: var(--serif); font-size: 16px; line-height: 1.65; padding-left: 20px; margin-top: var(--s-3); color: var(--ink);">
+            <li><a href="https://neogy.dev" style="text-decoration: underline;">neogy.dev</a> — developer's homepage.</li>
+            <li>App Store reviews — visible, public, read every Friday.</li>
+          </ul>
+        </div>
+
+        <!-- Form column -->
+        <div class="reveal">
+          <div class="eyebrow">Or fill out this form</div>
+          <form class="form" data-contact-form style="margin-top: var(--s-5);">
+            <div class="field">
+              <label for="name">Your name</label>
+              <input id="name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="email">Your email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="subject">Subject</label>
+              <select id="subject" name="subject" required>
+                <option value="Bug report">Bug report</option>
+                <option value="Feature request">Feature request</option>
+                <option value="Privacy question">Privacy question</option>
+                <option value="Press / media enquiry">Press / media enquiry</option>
+                <option value="Something else">Something else</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="message">Your message</label>
+              <textarea id="message" name="message" rows="6" required placeholder="As much detail as you're comfortable sharing…"></textarea>
+            </div>
+            <div class="form__actions">
+              <button type="submit" class="btn btn--primary">Send message</button>
+              <span data-form-status hidden style="font-family: var(--serif); font-style: italic; color: var(--mute); font-size: 14px;"></span>
+            </div>
+            <p style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.8px; color: var(--mute); line-height: 1.5;">
+              This form opens your default mail app with the message pre-filled.
+              Nothing is sent to a server — your words go directly from your mail app to our inbox.
+            </p>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="perforation container" style="max-width: var(--content-max);">
+
+    <section class="container section" style="text-align: center; padding-bottom: var(--s-9);">
+      <div class="eyebrow">Or maybe —</div>
+      <h2 style="margin-top: var(--s-4);">— maybe the <em style="color: var(--signal); font-style: italic;">FAQ</em> has it.</h2>
+      <p style="font-family: var(--serif); font-style: italic; color: var(--mute); margin: var(--s-4) auto 0; max-width: 500px;">
+        Fourteen common questions are already answered there, and you'll get an answer faster than email.
+      </p>
+      <a href="faq.html" class="btn btn--primary" style="margin-top: var(--s-5); display: inline-block;">Read the FAQ</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__grid">
+      <div class="footer__col">
+        <div class="footer__brand">Receipt<em>Folder</em></div>
+        <p class="footer__tag">An almanac of returns &amp; warranties. Filed quietly, nothing shared.</p>
+      </div>
+      <div class="footer__col"><h4>Product</h4><ul><li><a href="index.html">Overview</a></li><li><a href="faq.html">FAQ</a></li><li><a href="index.html#download">Download</a></li></ul></div>
+      <div class="footer__col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+      <div class="footer__col"><h4>Desk</h4><ul><li><a href="contact.html">Contact</a></li><li><a href="mailto:honorius@neogy.dev">honorius@neogy.dev</a></li></ul></div>
+    </div>
+    <div class="footer__end">
+      <span>© 2026 Honorius M. Neogy</span>
+      <span>Set in New York &amp; SF Mono</span>
+    </div>
+  </footer>
+
+  <script>
+    const el = document.getElementById('todaysDate');
+    if (el) {
+      el.textContent = new Intl.DateTimeFormat('en', {
+        weekday: 'long', day: '2-digit', month: 'short'
+      }).format(new Date()).toUpperCase();
+    }
+  </script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>

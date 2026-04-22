@@ -35,8 +35,23 @@ struct VaultListView: View {
     @State private var isEditing = false
     @State private var selectedItems: Set<UUID> = []
     @State private var path = NavigationPath()
+    @State private var householdStore = HouseholdStore.shared
 
     private let navigationState = NavigationState.shared
+
+    /// Household records matching the current search. Filters don't apply to
+    /// shared items — they're managed on the owner's device and we don't
+    /// want to hide them from view based on our local filter state.
+    private var filteredHouseholdRecords: [HouseholdReceipt] {
+        let base = householdStore.records
+        guard !searchText.isEmpty else { return base }
+        let q = searchText.lowercased()
+        return base.filter {
+            $0.productName.lowercased().contains(q) ||
+            $0.storeName.lowercased().contains(q) ||
+            $0.ownerDisplayName.lowercased().contains(q)
+        }
+    }
 
     // MARK: - Filtered Items
 
@@ -125,6 +140,9 @@ struct VaultListView: View {
             .navigationDestination(for: ReceiptItem.self) { item in
                 ItemDetailView(item: item)
             }
+            .navigationDestination(for: HouseholdReceipt.self) { record in
+                HouseholdReceiptDetailView(record: record)
+            }
             .onChange(of: isEditing) { _, newValue in
                 if !newValue { selectedItems.removeAll() }
             }
@@ -133,6 +151,12 @@ struct VaultListView: View {
             }
             .onAppear {
                 consumePendingItemID(navigationState.pendingItemID)
+            }
+            .task {
+                await householdStore.refresh()
+            }
+            .refreshable {
+                await householdStore.refresh()
             }
         }
     }
@@ -176,10 +200,51 @@ struct VaultListView: View {
 
                 receiptsList
 
+                if !filteredHouseholdRecords.isEmpty {
+                    RFPerforation()
+                        .padding(.horizontal, 20)
+                        .padding(.top, 24)
+                        .padding(.bottom, 24)
+
+                    householdSection
+                }
+
                 Spacer().frame(height: 120)
             }
         }
         .searchable(text: $searchText, prompt: "Search receipts")
+    }
+
+    // MARK: - Household Section
+
+    private var householdSection: some View {
+        LazyVStack(spacing: 0) {
+            HStack {
+                RFSectionHeader(title: "Household")
+                Spacer()
+                Text("\(filteredHouseholdRecords.count)")
+                    .font(RFFont.mono(11))
+                    .foregroundStyle(RFColors.mute)
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 14)
+
+            ForEach(Array(filteredHouseholdRecords.enumerated()), id: \.element.id) { index, rec in
+                VStack(spacing: 0) {
+                    if index == 0 {
+                        RFHairline().padding(.horizontal, 20)
+                    }
+
+                    NavigationLink(value: rec) {
+                        HouseholdRowView(record: rec)
+                            .padding(.horizontal, 20)
+                    }
+                    .buttonStyle(.plain)
+
+                    RFHairline().padding(.horizontal, 20)
+                }
+            }
+        }
     }
 
     // MARK: - Masthead

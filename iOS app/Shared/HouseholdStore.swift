@@ -1,6 +1,10 @@
 import Foundation
 import CloudKit
 import SwiftUI
+import OSLog
+
+/// Shared-target logger — RFLogger is in the iOS app target only.
+private let householdLog = Logger(subsystem: "com.receiptfolder", category: "household")
 
 // MARK: - Value type
 
@@ -100,7 +104,7 @@ final class HouseholdStore {
     private(set) var lastFetched: Date?
 
     private var container: CKContainer {
-        CKContainer(identifier: CloudSyncService.containerID)
+        CKContainer(identifier: AppGroupConstants.cloudKitContainerID)
     }
 
     private init() {}
@@ -124,7 +128,7 @@ final class HouseholdStore {
         } catch let error as CKError where error.code == .zoneNotFound || error.code == .unknownItem {
             // No household owned here — normal for participants-only.
         } catch {
-            RFLogger.storage.error("HouseholdStore owned-fetch failed: \(error.localizedDescription)")
+            householdLog.error("HouseholdStore owned-fetch failed: \(error.localizedDescription)")
             self.lastError = error.localizedDescription
         }
 
@@ -133,7 +137,7 @@ final class HouseholdStore {
             let participant = try await fetchParticipantRecords()
             merged.append(contentsOf: participant)
         } catch {
-            RFLogger.storage.error("HouseholdStore participant-fetch failed: \(error.localizedDescription)")
+            householdLog.error("HouseholdStore participant-fetch failed: \(error.localizedDescription)")
             self.lastError = error.localizedDescription
         }
 
@@ -173,9 +177,7 @@ final class HouseholdStore {
 
     private func fetchOwnedRecords() async throws -> [HouseholdReceipt] {
         let db = container.privateCloudDatabase
-        let zoneID = FamilySharingService.rootRecordID.zoneID
-        let predicate = NSPredicate(format: "recordType == %@", FamilySharingService.itemRecordType)
-        _ = predicate
+        let zoneID = HouseholdConstants.rootRecordID.zoneID
         return try await fetchAllRecords(
             in: db, zoneID: zoneID, origin: .owned, ownerDisplayName: "You"
         )
@@ -207,7 +209,7 @@ final class HouseholdStore {
         ownerDisplayName: String
     ) async throws -> [HouseholdReceipt] {
         let query = CKQuery(
-            recordType: FamilySharingService.itemRecordType,
+            recordType: HouseholdConstants.itemRecordType,
             predicate: NSPredicate(value: true)
         )
         var cursor: CKQueryOperation.Cursor?

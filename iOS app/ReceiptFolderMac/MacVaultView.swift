@@ -16,8 +16,21 @@ struct MacVaultView: View {
     @Environment(\.colorScheme) private var scheme
     @State private var searchText = ""
     @State private var selected: ReceiptItem?
+    @State private var selectedHousehold: HouseholdReceipt?
+    @State private var householdStore = HouseholdStore.shared
     @FocusState private var searchFocused: Bool
     @State private var showingAdd = false
+
+    private var filteredHouseholdRecords: [HouseholdReceipt] {
+        let base = householdStore.records
+        guard !searchText.isEmpty else { return base }
+        let q = searchText.lowercased()
+        return base.filter {
+            $0.productName.lowercased().contains(q) ||
+            $0.storeName.lowercased().contains(q) ||
+            $0.ownerDisplayName.lowercased().contains(q)
+        }
+    }
 
     var body: some View {
         HSplitView {
@@ -26,6 +39,7 @@ struct MacVaultView: View {
             detailColumn
                 .frame(minWidth: 360)
         }
+        .task { await householdStore.refresh() }
         .onReceive(NotificationCenter.default.publisher(for: .macFocusSearch)) { _ in
             searchFocused = true
         }
@@ -49,20 +63,75 @@ struct MacVaultView: View {
 
             Divider()
 
-            if filtered.isEmpty {
+            if filtered.isEmpty && filteredHouseholdRecords.isEmpty {
                 emptyState
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                List(selection: $selected) {
-                    ForEach(filtered) { item in
-                        MacVaultRow(item: item)
-                            .tag(item as ReceiptItem?)
+                List(selection: $selectionTag) {
+                    Section {
+                        ForEach(filtered) { item in
+                            MacVaultRow(item: item)
+                                .tag(SelectedEntry.owned(item))
+                        }
+                    } header: {
+                        if !filtered.isEmpty {
+                            sectionHeader("Your vault", count: filtered.count)
+                        }
+                    }
+
+                    if !filteredHouseholdRecords.isEmpty {
+                        Section {
+                            ForEach(filteredHouseholdRecords) { rec in
+                                MacHouseholdRow(record: rec)
+                                    .tag(SelectedEntry.household(rec))
+                            }
+                        } header: {
+                            sectionHeader("Household", count: filteredHouseholdRecords.count)
+                        }
                     }
                 }
                 .listStyle(.inset)
+                .onChange(of: selectionTag) { _, newValue in
+                    switch newValue {
+                    case .owned(let item)?:
+                        selected = item
+                        selectedHousehold = nil
+                    case .household(let rec)?:
+                        selectedHousehold = rec
+                        selected = nil
+                    case nil:
+                        selected = nil
+                        selectedHousehold = nil
+                    }
+                }
             }
         }
         .background(MacColors.paperDim(scheme))
+    }
+
+    /// Tri-state selection that distinguishes private items from household
+    /// records. Needed because List's `selection:` binding wants one value
+    /// type but the rows render two different model types.
+    private enum SelectedEntry: Hashable {
+        case owned(ReceiptItem)
+        case household(HouseholdReceipt)
+    }
+
+    @State private var selectionTag: SelectedEntry?
+
+    private func sectionHeader(_ title: String, count: Int?) -> some View {
+        HStack {
+            Text(title.uppercased())
+                .font(MacFont.mono(10))
+                .tracking(1.4)
+                .foregroundStyle(MacColors.mute(scheme))
+            if let count {
+                Spacer()
+                Text("\(count)")
+                    .font(MacFont.mono(10))
+                    .foregroundStyle(MacColors.mute(scheme))
+            }
+        }
     }
 
     private var masthead: some View {
@@ -135,6 +204,8 @@ struct MacVaultView: View {
     private var detailColumn: some View {
         if let item = selected {
             MacReceiptDetail(item: item)
+        } else if let rec = selectedHousehold {
+            MacHouseholdDetail(record: rec)
         } else {
             VStack(spacing: 12) {
                 Image(systemName: "arrow.left")
@@ -590,6 +661,195 @@ struct MacAddReceiptView: View {
         context.insert(item)
         try? context.save()
         onDismiss()
+    }
+}
+
+// MARK: - Household row + detail (Mac)
+
+private struct MacHouseholdRow: View {
+    let record: HouseholdReceipt
+    @Environment(\.colorScheme) private var scheme
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(spacing: 4) {
+                    Image(systemName: "person.2.fill")
+                        .font(.system(size: 8))
+                        .foregroundStyle(MacColors.signal)
+                    Text("SHARED · \(record.ownerDisplayName.uppercased())")
+                        .font(MacFont.mono(9))
+                        .tracking(1.2)
+                        .foregroundStyle(MacColors.signal)
+                }
+                Text(record.productName)
+                    .font(MacFont.serifBody(15))
+                    .foregroundStyle(MacColors.ink(scheme))
+                    .lineLimit(1)
+                HStack(spacing: 6) {
+                    Text(record.storeName.uppercased())
+                        .font(MacFont.mono(10))
+                        .tracking(1.0)
+                        .foregroundStyle(MacColors.mute(scheme))
+                    if record.priceCents > 0 {
+                        Text("·").font(MacFont.mono(10)).foregroundStyle(MacColors.mute(scheme))
+                        Text(record.formattedPrice)
+                            .font(MacFont.mono(10))
+                            .foregroundStyle(MacColors.mute(scheme))
+                    }
+                }
+            }
+            Spacer()
+            if let days = record.returnDaysRemaining, !record.isReturned {
+                HStack(alignment: .firstTextBaseline, spacing: 2) {
+                    Text("\(days)")
+                        .font(.system(size: 22, weight: .regular, design: .serif))
+                        .foregroundStyle(record.urgencyLevel == .critical ? MacColors.signal : MacColors.ink(scheme))
+                    Text("d")
+                        .font(.system(size: 12, weight: .regular, design: .serif))
+                        .italic()
+                        .foregroundStyle(MacColors.mute(scheme))
+                }
+            } else if record.isReturned {
+                Text("RETURNED")
+                    .font(MacFont.mono(9))
+                    .tracking(1.0)
+                    .foregroundStyle(MacColors.mute(scheme))
+            }
+        }
+        .padding(.vertical, 4)
+    }
+}
+
+private struct MacHouseholdDetail: View {
+    let record: HouseholdReceipt
+    @Environment(\.colorScheme) private var scheme
+    @State private var store = HouseholdStore.shared
+    @State private var isWorking = false
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                header
+                MacPerforation()
+                metadata
+                if !record.isReturned {
+                    MacPerforation()
+                    actions
+                }
+                MacPerforation()
+                provenance
+                Spacer(minLength: 40)
+            }
+            .padding(32)
+        }
+        .background(MacColors.paper(scheme))
+    }
+
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text("SHARED · \(record.ownerDisplayName.uppercased())")
+                    .font(MacFont.mono(10))
+                    .tracking(1.4)
+                    .foregroundStyle(MacColors.signal)
+                Spacer()
+                Text("NO. \(record.id.prefix(8).uppercased())")
+                    .font(MacFont.mono(10))
+                    .tracking(1.4)
+                    .foregroundStyle(MacColors.mute(scheme))
+            }
+            Rectangle().fill(MacColors.ink(scheme)).frame(height: 2)
+            Text(record.productName)
+                .font(MacFont.hero(36))
+            HStack(spacing: 4) {
+                Text("from").italic().foregroundStyle(MacColors.mute(scheme))
+                Text(record.storeName)
+                Text("·").foregroundStyle(MacColors.mute(scheme))
+                Text(record.purchaseDate, style: .date).italic().foregroundStyle(MacColors.mute(scheme))
+            }
+            .font(.system(size: 14, design: .serif))
+
+            if let days = record.returnDaysRemaining, !record.isReturned {
+                HStack(alignment: .lastTextBaseline, spacing: 8) {
+                    Text("\(days)")
+                        .font(.system(size: 80, weight: .regular, design: .serif))
+                        .foregroundStyle(record.urgencyLevel == .critical ? MacColors.signal : MacColors.ink(scheme))
+                    Text(days == 1 ? "DAY" : "DAYS")
+                        .font(.system(size: 18, design: .serif))
+                        .italic()
+                        .foregroundStyle(MacColors.mute(scheme))
+                    Text("until return window closes")
+                        .font(.system(size: 13, design: .serif))
+                        .italic()
+                        .foregroundStyle(MacColors.mute(scheme))
+                }
+                .padding(.top, 20)
+            } else if record.isReturned {
+                Text("RETURNED")
+                    .font(.system(size: 40, weight: .regular, design: .serif))
+                    .tracking(6)
+                    .foregroundStyle(MacColors.signal)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                    .overlay(Rectangle().stroke(MacColors.signal, lineWidth: 2))
+                    .rotationEffect(.degrees(-3))
+                    .padding(.top, 20)
+            }
+        }
+    }
+
+    private var metadata: some View {
+        VStack(spacing: 8) {
+            row("DATE", record.purchaseDate.formatted(.dateTime.month(.abbreviated).day().year()))
+            row("STORE", record.storeName)
+            if record.priceCents > 0 { row("PRICE", record.formattedPrice) }
+            if let end = record.returnWindowEndDate {
+                row("RETURN BY", end.formatted(.dateTime.month(.abbreviated).day().year()))
+            }
+            if let end = record.warrantyEndDate {
+                row("WARRANTY", end.formatted(.dateTime.month(.abbreviated).day().year()))
+            }
+        }
+    }
+
+    private func row(_ label: String, _ value: String) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            Text(label)
+                .font(MacFont.mono(10))
+                .tracking(1.4)
+                .foregroundStyle(MacColors.mute(scheme))
+                .frame(width: 90, alignment: .leading)
+            Text(value).font(MacFont.serifBody(14)).foregroundStyle(MacColors.ink(scheme))
+            Spacer()
+        }
+    }
+
+    private var actions: some View {
+        Button {
+            Task {
+                isWorking = true
+                try? await store.markReturned(record.id)
+                isWorking = false
+            }
+        } label: {
+            Label(isWorking ? "Marking returned…" : "Mark as returned", systemImage: "arrow.uturn.left")
+        }
+        .buttonStyle(.borderedProminent)
+        .disabled(isWorking)
+    }
+
+    private var provenance: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("PROVENANCE")
+                .font(MacFont.mono(10))
+                .tracking(1.4)
+                .foregroundStyle(MacColors.mute(scheme))
+            Text("Managed by \(record.ownerDisplayName). Other fields can only be changed from their device.")
+                .font(.system(size: 13, design: .serif))
+                .italic()
+                .foregroundStyle(MacColors.mute(scheme))
+        }
     }
 }
 

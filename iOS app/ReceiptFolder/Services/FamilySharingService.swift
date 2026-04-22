@@ -36,13 +36,13 @@ final class FamilySharingService {
 
     // MARK: - Constants
 
-    static let zoneName = "HouseholdZone"
-    static let rootRecordType = "HouseholdRoot"
-    static let rootRecordID = CKRecord.ID(
-        recordName: "household-root",
-        zoneID: CKRecordZone.ID(zoneName: FamilySharingService.zoneName, ownerName: CKCurrentUserDefaultName)
-    )
-    static let itemRecordType = "SharedReceiptItem"
+    // Constants re-exported from HouseholdConstants for call-site clarity.
+    // Keep FamilySharingService.rootRecordID etc. as sugar; single source of
+    // truth for the wire format is HouseholdConstants (Shared/ target).
+    static var zoneName: String { HouseholdConstants.zoneName }
+    static var rootRecordType: String { HouseholdConstants.rootRecordType }
+    static var rootRecordID: CKRecord.ID { HouseholdConstants.rootRecordID }
+    static var itemRecordType: String { HouseholdConstants.itemRecordType }
 
     // MARK: - Observable state
 

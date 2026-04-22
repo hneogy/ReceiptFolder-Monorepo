@@ -33,6 +33,7 @@
 		3AE75ECE7CACC9DF99C587EC /* StorePolicies.json in Resources */ = {isa = PBXBuildFile; fileRef = CBD9D25F339A5140977625D5 /* StorePolicies.json */; };
 		3B132D17BDC6ACFF9C244FD9 /* MarkReturnedIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8E9163240153C9A0EEB889 /* MarkReturnedIntent.swift */; };
 		3B884696428EA099FF0DD8BD /* MacDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789DF2C59E874BD6B757017E /* MacDesignSystem.swift */; };
+		3DAED5CC35EF3F2CBEDEA31E /* HouseholdStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FA7C6C3D8B1F2CD90C5E76 /* HouseholdStore.swift */; };
 		3ED828C857C1585B44523047 /* ReceiptItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FCEC4A2AA12B7F62C19CB4 /* ReceiptItem.swift */; };
 		4006F4C875DF7CD79463D1EE /* HapticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47A05B20A0DC715042E20B2 /* HapticsService.swift */; };
 		44849BDB09FDA641628A9B27 /* ReceiptFolderShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FB58731A6BBDC40C7BAB4B10 /* ReceiptFolderShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -153,6 +154,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		06FA7C6C3D8B1F2CD90C5E76 /* HouseholdStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdStore.swift; sourceTree = "<group>"; };
 		08CFCDB3B691ECF2403E4A64 /* ReceiptTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptTips.swift; sourceTree = "<group>"; };
 		09F6EEFFBC6E14C707E8F119 /* ReceiptFolderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptFolderTests.swift; sourceTree = "<group>"; };
 		0A140158EB03C3D1FB1878A6 /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
@@ -462,6 +464,7 @@
 				D9D4EE8CF3111708E160320E /* ExportService.swift */,
 				1251F9BDE741A7CD890A33F4 /* FamilySharingService.swift */,
 				B47A05B20A0DC715042E20B2 /* HapticsService.swift */,
+				06FA7C6C3D8B1F2CD90C5E76 /* HouseholdStore.swift */,
 				FBBA985F31F1BAB891AFDD20 /* ImageCompressionService.swift */,
 				A1E100B48B24AF5DEF99BEFA /* ImageStorageService.swift */,
 				B8922154D6E10249836975BF /* LiveActivityManager.swift */,
@@ -706,6 +709,7 @@
 				1F5CE0A8A9162989C9F6F622 /* FamilySharingService.swift in Sources */,
 				CC9B3F5DDFD557859F004670 /* FamilySharingView.swift in Sources */,
 				4006F4C875DF7CD79463D1EE /* HapticsService.swift in Sources */,
+				3DAED5CC35EF3F2CBEDEA31E /* HouseholdStore.swift in Sources */,
 				FC8DE3D9B0CEC9D078E84DE2 /* ImageCompressionService.swift in Sources */,
 				F28DB4A3E4F4CC856DE5304A /* ImageStorageService.swift in Sources */,
 				A9A2ACA6258AD2A211F1B96D /* InsightsView.swift in Sources */,

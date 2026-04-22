@@ -137,6 +137,11 @@ struct ItemDetailView: View {
                             WidgetSyncService.sync(modelContext: modelContext)
                             HapticsService.shared.playSuccess()
                             ReviewPromptService.recordMarkReturned()
+                            // Mirror the change to the household zone so co-owners
+                            // see the updated isReturned flag.
+                            if item.sharedWithHousehold {
+                                Task { await FamilySharingService.shared.mirrorItem(item) }
+                            }
                             // Ask for proof-of-return before the review prompt.
                             // The review prompt fires once the user dismisses
                             // the confirmation sheet (handled in onDismiss below).
@@ -158,13 +163,17 @@ struct ItemDetailView: View {
                         item.sharedWithHousehold ? "Stop Sharing with Household" : "Share with Household",
                         systemImage: item.sharedWithHousehold ? "person.2.slash" : "person.2"
                     ) {
-                        item.sharedWithHousehold.toggle()
+                        let newValue = !item.sharedWithHousehold
+                        item.sharedWithHousehold = newValue
                         try? modelContext.save()
                         HapticsService.shared.playSuccess()
                         Task { @MainActor in
                             let service = FamilySharingService.shared
-                            if service.hasHousehold {
-                                await service.syncSharedItems([item])
+                            guard service.hasHousehold else { return }
+                            if newValue {
+                                await service.mirrorItem(item)
+                            } else {
+                                await service.removeMirror(for: item.id)
                             }
                         }
                     }
@@ -173,6 +182,12 @@ struct ItemDetailView: View {
                         NotificationScheduler.shared.cancelNotifications(for: item.id)
                         LiveActivityManager.shared.endLiveActivity(for: item.id)
                         WidgetSyncService.sync(modelContext: modelContext)
+                        // Archive removes the item from the household view too —
+                        // an archived receipt shouldn't clutter co-owners' vaults.
+                        if item.sharedWithHousehold {
+                            let id = item.id
+                            Task { await FamilySharingService.shared.removeMirror(for: id) }
+                        }
                         dismiss()
                     }
                     Divider()
@@ -825,8 +840,15 @@ struct ItemDetailView: View {
         if let itemPath = item.itemImagePath {
             ImageStorageService.shared.deleteImage(relativePath: itemPath)
         }
+        // Cascade delete to the household zone — capture the ID before
+        // `modelContext.delete(item)` invalidates the instance.
+        let wasShared = item.sharedWithHousehold
+        let itemID = item.id
         modelContext.delete(item)
         WidgetSyncService.sync(modelContext: modelContext)
+        if wasShared {
+            Task { await FamilySharingService.shared.removeMirror(for: itemID) }
+        }
         dismiss()
     }
 

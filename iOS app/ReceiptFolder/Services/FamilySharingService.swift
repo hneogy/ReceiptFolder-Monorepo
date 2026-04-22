@@ -1,6 +1,8 @@
 import Foundation
 import CloudKit
 import SwiftUI
+import SwiftData
+import Combine
 
 /// Manages a CloudKit `CKShare` that represents the user's "household."
 /// Family members who accept the share can see items the user has marked
@@ -69,7 +71,53 @@ final class FamilySharingService {
 
     private var privateDB: CKDatabase { container.privateCloudDatabase }
 
-    private init() {}
+    // MARK: - Auto-mirror plumbing
+
+    /// Observer token for `ModelContext.didSave`. Held so we can remove on
+    /// deinit (not actually called — singleton — but defensive).
+    private var didSaveObserver: NSObjectProtocol?
+    /// Debounce window for the save-driven full sync. SwiftData fires a
+    /// `.didSave` notification on every save; users typing a note field
+    /// will fire many of these in a row.
+    private var debouncedSyncTask: Task<Void, Never>?
+    /// The app owns one ModelContainer; we remember it so `didSave` can
+    /// feed current state into `syncSharedItems`.
+    private weak var modelContainer: ModelContainer?
+
+    private init() {
+        didSaveObserver = NotificationCenter.default.addObserver(
+            forName: ModelContext.didSave,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in self?.onModelContextDidSave() }
+        }
+    }
+
+    /// Registers the app's ModelContainer so the save observer can read the
+    /// latest item state without a per-context reference. Called from
+    /// `ReceiptFolderApp.init` once the container is built.
+    func bind(modelContainer: ModelContainer) {
+        self.modelContainer = modelContainer
+    }
+
+    @MainActor
+    private func onModelContextDidSave() {
+        guard hasHousehold, let modelContainer else { return }
+        // Debounce: wait 1.5s for additional saves (like wheel-spinning a
+        // price field) before pulling all items and syncing.
+        debouncedSyncTask?.cancel()
+        debouncedSyncTask = Task { [weak self] in
+            try? await Task.sleep(for: .milliseconds(1500))
+            guard !Task.isCancelled else { return }
+            let ctx = ModelContext(modelContainer)
+            let descriptor = FetchDescriptor<ReceiptItem>(
+                predicate: #Predicate { !$0.isArchived }
+            )
+            guard let items = try? ctx.fetch(descriptor) else { return }
+            await self?.syncSharedItems(items)
+        }
+    }
 
     // MARK: - Loading
 
@@ -201,44 +249,147 @@ final class FamilySharingService {
         await refresh()
     }
 
-    // MARK: - Per-item sync (scaffolded; manual for v1)
+    // MARK: - Per-item sync
 
-    /// Mirrors all items flagged `sharedWithHousehold == true` into the
-    /// household shared zone. v1 ships this as a manual action exposed in the
-    /// Family Sharing settings screen; a future pass will wire it up to
-    /// SwiftData change notifications so mirroring is automatic.
+    /// Full resync: mirrors everything flagged `sharedWithHousehold == true`
+    /// into the household zone, and deletes stale records for items that
+    /// were un-flagged since the last sync. Idempotent; safe to call on
+    /// every foreground.
     func syncSharedItems(_ items: [ReceiptItem]) async {
         guard hasHousehold else { return }
         do {
             try await ensureZoneExists()
             let root = try await fetchRootRecord()
             let flagged = items.filter(\.sharedWithHousehold)
+            let flaggedIDs = Set(flagged.map(\.id.uuidString))
 
+            // Saves.
             var toSave: [CKRecord] = []
             for item in flagged {
-                let id = CKRecord.ID(recordName: item.id.uuidString, zoneID: Self.rootRecordID.zoneID)
-                let record = CKRecord(recordType: Self.itemRecordType, recordID: id)
-                record.parent = CKRecord.Reference(record: root, action: .none)
-                record.setParent(root)
-                record["productName"] = item.productName as NSString
-                record["storeName"] = item.storeName as NSString
-                record["purchaseDate"] = item.purchaseDate as NSDate
-                record["priceCents"] = item.priceCents as NSNumber
-                if let end = item.returnWindowEndDate {
-                    record["returnWindowEndDate"] = end as NSDate
-                }
-                if let warranty = item.warrantyEndDate {
-                    record["warrantyEndDate"] = warranty as NSDate
-                }
-                record["isReturned"] = (item.isReturned ? 1 : 0) as NSNumber
-                toSave.append(record)
+                toSave.append(buildCKRecord(for: item, parent: root))
             }
             if !toSave.isEmpty {
-                _ = try await privateDB.modifyRecords(saving: toSave, deleting: [], savePolicy: .allKeys)
+                _ = try await privateDB.modifyRecords(
+                    saving: toSave, deleting: [], savePolicy: .changedKeys
+                )
             }
+
+            // Deletes — anything in the zone that isn't flagged anymore.
+            let existing = try await fetchAllSharedRecordIDs()
+            let stale = existing.filter { !flaggedIDs.contains($0.recordName) && $0.recordName != Self.rootRecordID.recordName }
+            if !stale.isEmpty {
+                _ = try await privateDB.modifyRecords(saving: [], deleting: stale)
+            }
+
+            await HouseholdStore.shared.refresh()
         } catch {
             RFLogger.storage.error("Household item sync failed: \(error.localizedDescription)")
             self.lastError = error.localizedDescription
         }
+    }
+
+    /// Upsert a single item. Called from auto-mirror hooks (item toggle,
+    /// item edit) so we don't pay the cost of a full resync on every save.
+    func mirrorItem(_ item: ReceiptItem) async {
+        guard hasHousehold, item.sharedWithHousehold else { return }
+        do {
+            try await ensureZoneExists()
+            let root = try await fetchRootRecord()
+            let record = buildCKRecord(for: item, parent: root)
+            _ = try await privateDB.modifyRecords(
+                saving: [record], deleting: [], savePolicy: .changedKeys
+            )
+            await HouseholdStore.shared.refresh()
+        } catch {
+            RFLogger.storage.error("Household mirror of item \(item.id) failed: \(error.localizedDescription)")
+            self.lastError = error.localizedDescription
+        }
+    }
+
+    /// Remove the mirrored copy of an item — call when the user toggles
+    /// `sharedWithHousehold` off, or deletes the source item outright.
+    func removeMirror(for itemID: UUID) async {
+        guard hasHousehold else { return }
+        let recordID = CKRecord.ID(recordName: itemID.uuidString, zoneID: Self.rootRecordID.zoneID)
+        do {
+            _ = try await privateDB.modifyRecords(saving: [], deleting: [recordID])
+            await HouseholdStore.shared.refresh()
+        } catch let error as CKError where error.code == .unknownItem {
+            // Already gone — nothing to do.
+        } catch {
+            RFLogger.storage.error("Household remove of item \(itemID) failed: \(error.localizedDescription)")
+            self.lastError = error.localizedDescription
+        }
+    }
+
+    // MARK: - CKRecord construction (with CKAsset images)
+
+    /// Builds a `SharedReceiptItem` CKRecord for the given SwiftData item.
+    /// Images are written as `CKAsset`s pointing at temp files so CloudKit
+    /// handles upload as blobs rather than inlining the Data into the
+    /// record (records have a 1MB field cap; receipt photos routinely
+    /// exceed that).
+    private func buildCKRecord(for item: ReceiptItem, parent: CKRecord) -> CKRecord {
+        let id = CKRecord.ID(recordName: item.id.uuidString, zoneID: Self.rootRecordID.zoneID)
+        let record = CKRecord(recordType: Self.itemRecordType, recordID: id)
+        record.setParent(parent)
+
+        record["productName"] = item.productName as NSString
+        record["storeName"] = item.storeName as NSString
+        record["purchaseDate"] = item.purchaseDate as NSDate
+        record["priceCents"] = item.priceCents as NSNumber
+        record["notes"] = item.notes as NSString
+        record["isReturned"] = (item.isReturned ? 1 : 0) as NSNumber
+
+        if let end = item.returnWindowEndDate {
+            record["returnWindowEndDate"] = end as NSDate
+        }
+        if let warranty = item.warrantyEndDate {
+            record["warrantyEndDate"] = warranty as NSDate
+        }
+        if let returnedAt = item.returnedAt {
+            record["returnedAt"] = returnedAt as NSDate
+        }
+
+        if let receiptData = item.receiptImageData, let asset = Self.makeAsset(from: receiptData, hint: "receipt") {
+            record["receiptImage"] = asset
+        }
+        if let itemData = item.itemImageData, let asset = Self.makeAsset(from: itemData, hint: "item") {
+            record["itemImage"] = asset
+        }
+        return record
+    }
+
+    /// Writes Data to a temp file and returns a CKAsset pointing at it.
+    /// CloudKit will upload the file contents on record save.
+    private static func makeAsset(from data: Data, hint: String) -> CKAsset? {
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("household-\(hint)-\(UUID().uuidString).dat")
+        do {
+            try data.write(to: url, options: .atomic)
+            return CKAsset(fileURL: url)
+        } catch {
+            RFLogger.storage.error("makeAsset failed for \(hint): \(error.localizedDescription)")
+            return nil
+        }
+    }
+
+    // MARK: - Full-zone enumeration (used by stale-record cleanup)
+
+    private func fetchAllSharedRecordIDs() async throws -> [CKRecord.ID] {
+        let query = CKQuery(recordType: Self.itemRecordType, predicate: NSPredicate(value: true))
+        var cursor: CKQueryOperation.Cursor?
+        var ids: [CKRecord.ID] = []
+        repeat {
+            let page: (matchResults: [(CKRecord.ID, Result<CKRecord, Error>)], queryCursor: CKQueryOperation.Cursor?)
+            if let cursor {
+                page = try await privateDB.records(continuingMatchFrom: cursor)
+            } else {
+                page = try await privateDB.records(matching: query, inZoneWith: Self.rootRecordID.zoneID)
+            }
+            ids.append(contentsOf: page.matchResults.map(\.0))
+            cursor = page.queryCursor
+        } while cursor != nil
+        return ids
     }
 }

@@ -71,6 +71,12 @@ struct ReceiptFolderApp: App {
         } else {
             fatalError("Failed to create ModelContainer")
         }
+
+        // Let FamilySharingService observe SwiftData saves against this
+        // container so edits to shared items auto-mirror.
+        if !Self.isUITesting {
+            FamilySharingService.shared.bind(modelContainer: modelContainer)
+        }
     }
 
     /// Clears the volatile state the test target needs to be deterministic.

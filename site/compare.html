@@ -145,7 +145,7 @@
             </tr>
             <tr>
               <td>Email receipt import</td>
-              <td class="own signal">Yes — on-device parser</td>
+              <td class="own signal">Yes — on-device parser + AI fallback</td>
               <td class="check">Yes — cloud OCR</td>
               <td class="check">Yes — cloud OCR</td>
               <td class="x">No</td>
@@ -288,10 +288,12 @@
         <p style="font-family: var(--serif); font-size: 17px; line-height: 1.6; color: var(--ink); margin-top: var(--s-4);">
           If you want <em>fully-automatic</em> background sync from Gmail and
           Outlook inboxes, SimplyWise still edges us there. Our email import
-          (shipped April 2026) works as a Mail share sheet: you pick the
-          receipt, we parse it on-device. That's a deliberate trade — no inbox
-          credentials leave your phone, nothing touches a server, and you
-          still get structured data in two taps.
+          works as a Mail share sheet: you pick the receipt, we parse it
+          on-device. That's a deliberate trade — no inbox credentials leave
+          your phone, nothing touches a server, and on iPhones running iOS
+          26 with Apple Intelligence, <em>any</em> retailer is supported
+          (not just the ones we've hand-written parsers for), because the
+          on-device language model handles the long tail.
         </p>
 
         <h3 style="font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mute); margin-top: var(--s-7);">When Shoeboxed makes sense</h3>
